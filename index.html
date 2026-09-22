@@ -26,44 +26,51 @@
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--fg); line-height: 1.5; min-height: 100vh; }
+  
   header { background: var(--green); color: #fff; padding: 20px 32px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,0.15); }
   header h1 { font-family: 'Playfair Display', serif; font-weight: 900; font-size: 1.4rem; letter-spacing: -0.02em; }
   header h1 span { color: var(--accent); }
   .header-actions { display: flex; gap: 12px; align-items: center; }
   .badge { background: var(--accent); color: var(--fg); padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; cursor: pointer; transition: transform 0.15s; }
   .badge:hover { transform: scale(1.05); }
+  
   nav { background: var(--card); border-bottom: 1px solid var(--border); padding: 0 32px; display: flex; gap: 4px; overflow-x: auto; }
   nav button { background: none; border: none; padding: 14px 20px; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; font-weight: 600; color: var(--muted); cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.2s; white-space: nowrap; }
   nav button:hover { color: var(--fg); background: var(--green-light); }
   nav button.active { color: var(--green); border-bottom-color: var(--accent); }
+  
   main { max-width: 1200px; margin: 0 auto; padding: 32px; }
   .section { display: none; }
   .section.active { display: block; animation: fadeIn 0.3s ease; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  
   .hero { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 40px; align-items: center; margin-bottom: 48px; }
   .hero-text h2 { font-family: 'Playfair Display', serif; font-size: 2.6rem; font-weight: 900; line-height: 1.1; color: var(--green); margin-bottom: 16px; }
   .hero-text p { font-size: 1.1rem; color: var(--muted); margin-bottom: 24px; max-width: 480px; }
-  .btn-primary { background: var(--accent); color: var(--fg); border: none; padding: 12px 28px; font-family: 'DM Sans', sans-serif; font-size: 0.95rem; font-weight: 700; border-radius: var(--radius); cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 14px rgba(200,162,74,0.3); }
-  .btn-primary:hover { background: var(--accent-dark); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(200,162,74,0.4); }
-  .btn-primary:active { transform: translateY(0); }
+  .btn { background: var(--accent); color: var(--fg); border: none; padding: 12px 28px; font-family: 'DM Sans', sans-serif; font-size: 0.95rem; font-weight: 700; border-radius: var(--radius); cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 14px rgba(200,162,74,0.3); text-decoration: none; display: inline-block; }
+  .btn:hover { background: var(--accent-dark); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(200,162,74,0.4); }
+  .btn:active { transform: translateY(0); }
   .btn-secondary { background: var(--green-light); color: var(--green); border: 2px solid var(--green); padding: 10px 24px; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; font-weight: 600; border-radius: var(--radius); cursor: pointer; transition: all 0.2s; }
   .btn-secondary:hover { background: var(--green); color: #fff; }
   .btn-danger { background: var(--danger); color: #fff; border: none; padding: 8px 16px; font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 600; border-radius: var(--radius); cursor: pointer; transition: all 0.2s; }
   .btn-danger:hover { opacity: 0.85; }
   .btn-sm { padding: 6px 14px; font-size: 0.8rem; }
+  
   .hero-visual { background: var(--green-light); border-radius: 16px; padding: 40px; text-align: center; border: 2px solid var(--border); }
   .hero-visual .stat { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 900; color: var(--green); }
   .hero-visual .stat-label { color: var(--muted); font-size: 0.85rem; margin-top: 4px; }
+  
   .search-bar { display: flex; gap: 12px; margin-bottom: 28px; max-width: 600px; }
   .search-bar input { flex: 1; padding: 12px 18px; border: 2px solid var(--border); border-radius: var(--radius); font-family: 'DM Sans', sans-serif; font-size: 0.95rem; background: var(--card); transition: border-color 0.2s; }
   .search-bar input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(200,162,74,0.15); }
+  
   .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
   .product-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; transition: all 0.25s; position: relative; overflow: hidden; }
   .product-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); border-color: var(--accent); }
   .product-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--accent); transform: scaleX(0); transition: transform 0.3s; }
   .product-card:hover::before { transform: scaleX(1); }
   .product-category { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--accent-dark); margin-bottom: 6px; }
-  .product-name { font-weight: 700; font-size: 1.05rem; margin-bottom: 4px; color: var(--fg); }
+  .product-name { font-weight: 700; font-size: 1.05rem; margin-bottom: 4px; }
   .product-desc { font-size: 0.85rem; color: var(--muted); margin-bottom: 12px; line-height: 1.4; }
   .product-footer { display: flex; align-items: center; justify-content: space-between; }
   .product-price { font-weight: 700; font-size: 1.1rem; color: var(--green); }
@@ -71,6 +78,7 @@
   .stock-ok { background: #e8f5e9; color: var(--success); }
   .stock-low { background: #fff3e0; color: var(--warning); }
   .stock-out { background: #fce4ec; color: var(--danger); }
+  
   .cart-overlay { position: fixed; top: 0; right: -420px; width: 400px; height: 100vh; background: var(--card); box-shadow: -8px 0 30px rgba(0,0,0,0.15); z-index: 200; transition: right 0.35s ease; display: flex; flex-direction: column; }
   .cart-overlay.open { right: 0; }
   .cart-backdrop { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 199; }
@@ -90,6 +98,7 @@
   .cart-footer { padding: 20px 24px; border-top: 2px solid var(--border); background: var(--bg); }
   .cart-total { display: flex; justify-content: space-between; font-weight: 700; font-size: 1.1rem; margin-bottom: 12px; }
   .cart-total .amount { color: var(--green); font-size: 1.2rem; }
+  
   table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
   th, td { padding: 14px 18px; text-align: left; border-bottom: 1px solid var(--border); }
   th { background: var(--green-light); color: var(--green); font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.03em; }
@@ -97,7 +106,7 @@
   .pill { padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; }
   .pill-pending { background: #fff3e0; color: #e65100; }
   .pill-confirmed { background: #e8f5e9; color: #2e7d32; }
-  .pill-shipped { background: #e3f2fd; color: #1565c0; }
+  
   .alert { padding: 14px 20px; border-radius: var(--radius); margin-bottom: 20px; font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; gap: 10px; }
   .alert-warning { background: #fff8e1; border: 1px solid #ffcc02; color: #795548; }
   .alert-success { background: #e8f5e9; border: 1px solid #66bb6a; color: #2e7d32; }
@@ -105,15 +114,17 @@
   .empty-state { text-align: center; padding: 60px 20px; color: var(--muted); }
   .empty-state .icon { font-size: 3rem; margin-bottom: 12px; }
   .empty-state p { font-size: 1rem; }
-  /* PAYMENT SECTION */
+  
+  /* PAYMENT */
   .payment-section { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-top: 24px; box-shadow: var(--shadow); }
-  .payment-method { border: 2px solid var(--border); border-radius: var(--radius); padding: 16px; margin-bottom: 16px; cursor: pointer; transition: all 0.2s; }
+  .payment-method { border: 2px solid var(--border); border-radius: var(--radius); padding: 16px; margin-bottom: 16px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 16px; }
   .payment-method:hover { border-color: var(--accent); }
   .payment-method.selected { border-color: var(--accent); background: var(--green-light); }
-  .payment-method h4 { font-family: 'Playfair Display', serif; color: var(--green); margin-bottom: 8px; }
-  .payment-method p { color: var(--muted); font-size: 0.9rem; }
+  .payment-method .pm-icon { font-size: 2rem; width: 60px; text-align: center; }
+  .payment-method h4 { font-family: 'Playfair Display', serif; color: var(--green); margin-bottom: 4px; }
+  .payment-method p { color: var(--muted); font-size: 0.85rem; }
   .qris-code { background: #fff; border: 2px dashed var(--border); border-radius: 8px; padding: 20px; text-align: center; margin: 12px 0; }
-  .qris-code .qr-placeholder { width: 150px; height: 150px; background: var(--bg); margin: 0 auto; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 3rem; color: var(--muted); }
+  .qris-placeholder { width: 150px; height: 150px; background: var(--bg); margin: 0 auto; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 3rem; color: var(--muted); }
   .bank-list { list-style: none; padding: 0; }
   .bank-list li { padding: 12px 16px; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
   .bank-list li:hover { background: var(--green-light); }
@@ -122,6 +133,7 @@
   .payment-confirm { background: var(--green-light); border: 1px solid var(--success); border-radius: 8px; padding: 16px; margin-top: 16px; display: none; }
   .payment-confirm.show { display: block; }
   .payment-confirm h4 { color: var(--green); margin-bottom: 8px; }
+  
   /* CHATBOT */
   .chat-toggle { position: fixed; bottom: 24px; right: 24px; width: 60px; height: 60px; background: var(--green); color: #fff; border: none; border-radius: 50%; font-size: 1.5rem; cursor: pointer; box-shadow: 0 4px 16px rgba(58,90,60,0.4); z-index: 300; transition: all 0.3s; display: flex; align-items: center; justify-content: center; }
   .chat-toggle:hover { transform: scale(1.1); background: var(--accent-dark); }
@@ -132,7 +144,7 @@
   .chat-close { background: none; border: none; color: #fff; font-size: 1.2rem; cursor: pointer; padding: 4px 8px; border-radius: 6px; }
   .chat-close:hover { background: rgba(255,255,255,0.2); }
   .chat-messages { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; background: var(--bg); }
-  .chat-message { max-width: 85%; padding: 10px 14px; border-radius: 12px; font-size: 0.9rem; line-height: 1.4; animation: slideUp 0.3s ease; }
+  .chat-message { max-width: 85%; padding: 10px 14px; border-radius: 12px; font-size: 0.9rem; line-height: 1.4; animation: slideUp 0.3s ease; white-space: pre-wrap; word-wrap: break-word; }
   @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
   .chat-message.user { align-self: flex-end; background: var(--green); color: #fff; border-bottom-right-radius: 4px; }
   .chat-message.bot { align-self: flex-start; background: var(--card); color: var(--fg); border: 1px solid var(--border); border-bottom-left-radius: 4px; }
@@ -144,15 +156,18 @@
   .chat-quick-replies { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px 12px; background: var(--card); border-top: 1px solid var(--border); }
   .quick-reply { padding: 6px 12px; background: var(--green-light); color: var(--green); border: 1px solid var(--green); border-radius: 16px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.2s; font-family: 'DM Sans', sans-serif; }
   .quick-reply:hover { background: var(--green); color: #fff; }
+  
   ::-webkit-scrollbar { width: 6px; }
   ::-webkit-scrollbar-track { background: var(--bg); }
   ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
   ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+  
   .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--fg); color: #fff; padding: 12px 24px; border-radius: var(--radius); font-weight: 600; font-size: 0.9rem; z-index: 999; transition: transform 0.3s ease; box-shadow: var(--shadow-lg); }
   .toast.show { transform: translateX(-50%) translateY(0); }
   .toast.success { border-left: 4px solid var(--success); }
   .toast.error { border-left: 4px solid var(--danger); }
   .toast.info { border-left: 4px solid #42a5f5; }
+  
   @media (max-width: 768px) {
     header { padding: 16px 20px; }
     main { padding: 20px; }
@@ -185,13 +200,12 @@
 </nav>
 
 <main>
-  <!-- CATALOG -->
   <div id="sec-catalog" class="section active">
     <div class="hero">
       <div class="hero-text">
         <h2>Tanaman & Pupuk<br>Kualitas Terjamin</h2>
         <p>Toko tanaman hias, pupuk organik & kimia, serta alat tanam lengkap. Pesan via chatbot atau langsung beli di sini.</p>
-        <button class="btn-primary" onclick="app.switchTab('cart')">🛒 Beli Sekarang</button>
+        <button class="btn" onclick="app.switchTab('cart')">🛒 Beli Sekarang</button>
       </div>
       <div class="hero-visual">
         <div class="stat" id="totalProducts">0</div>
@@ -206,33 +220,27 @@
     <div class="product-grid" id="productGrid"></div>
   </div>
 
-  <!-- CART -->
   <div id="sec-cart" class="section">
     <h2 style="font-family:'Playfair Display',serif;font-size:1.8rem;margin-bottom:20px;color:var(--green);">🛒 Keranjang Belanja</h2>
     <div id="cartContent"></div>
-    <button class="btn-primary" style="margin-top:16px;" onclick="app.switchTab('payment')">💳 Lanjut ke Pembayaran</button>
   </div>
 
-  <!-- PAYMENT -->
   <div id="sec-payment" class="section">
-    <h2 style="font-family:'Playfair Display',serif;font-size:1.8rem;margin-bottom:20px;color:var(--green);">💳 Pembayaran</h2>
+    <h2 style="font-family:'Playfair Display',serif;font-size:1.8rem;margin-bottom:20px;color:var(--green);">💳 Pilih Pembayaran</h2>
     <div id="paymentContent"></div>
   </div>
 
-  <!-- ORDERS -->
   <div id="sec-orders" class="section">
     <h2 style="font-family:'Playfair Display',serif;font-size:1.8rem;margin-bottom:20px;color:var(--green);">📋 Daftar Pesanan</h2>
     <div id="ordersContent"></div>
   </div>
 
-  <!-- INVENTORY -->
   <div id="sec-inventory" class="section">
     <h2 style="font-family:'Playfair Display',serif;font-size:1.8rem;margin-bottom:20px;color:var(--green);">📊 Laporan Stok</h2>
     <div id="inventoryContent"></div>
   </div>
 </main>
 
-<!-- CART SIDEBAR -->
 <div id="cartBackdrop" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.3);z-index:199;" onclick="app.toggleCart()"></div>
 <div id="cartSidebar" class="cart-overlay">
   <div class="cart-header">
@@ -245,37 +253,13 @@
       <span>Total</span>
       <span class="amount" id="cartTotal">Rp 0</span>
     </div>
-    <button class="btn-primary" style="width:100%;text-align:center;" onclick="app.switchTab('payment')">💳 Bayar</button>
+    <button class="btn" style="width:100%;text-align:center;margin-top:8px;" onclick="app.checkout()">Checkout</button>
   </div>
 </div>
 
-<!-- CHATBOT TOGGLE -->
-<button class="chat-toggle" onclick="toggleChat()" id="chatToggle">💬</button>
-
-<!-- CHAT WINDOW -->
-<div class="chat-window" id="chatWindow">
-  <div class="chat-header">
-    <h3>🤖 Bot Toko Tanaman</h3>
-    <button class="chat-close" onclick="toggleChat()">✕</button>
-  </div>
-  <div class="chat-messages" id="chatMessages"></div>
-  <div class="chat-quick-replies" id="quickReplies">
-    <button class="quick-reply" onclick="sendQuick('catalog')">📦 Catalog</button>
-    <button class="quick-reply" onclick="sendQuick('rekomendasi')">💡 Rekomendasi</button>
-    <button class="quick-reply" onclick="sendQuick('beli')">🛒 Beli</button>
-    <button class="quick-reply" onclick="sendQuick('pembayaran')">💳 Bayar</button>
-  </div>
-  <div class="chat-input-area">
-    <input type="text" id="chatInput" placeholder="Ketik pesan..." onkeypress="handleChatKey(event)">
-    <button onclick="sendChat()">➤</button>
-  </div>
-</div>
-
-<!-- TOAST -->
 <div id="toast" class="toast"></div>
 
 <script>
-// ==================== DATA ====================
 const products = {
   tanaman: [
     {id:"T001",name:"Sirih Gading",price:35000,stock:25,cat:"Tanaman Hias",desc:"Tanaman gantung, mudah perawatan"},
@@ -306,814 +290,232 @@ const products = {
   ]
 };
 
-const recommendations = {
-  hias: ["T001","T002","T005","T008"],
-  mudah: ["T002","T004","T006"],
-  bunga: ["T003","T007"],
-  air: ["T006"],
-  indoor: ["T001","T005"],
-  outdoor: ["T008","T002"],
-  pemula: ["T002","T004","T006"],
-  premium: ["T007","T005"],
-  murah: ["T006","T004","T001"],
-  hemat: ["T004","T006","T008"],
-};
-
-const pupukRec = {
-  hias: ["P001","P002","P004"],
-  sayur: ["P001","P007","P008"],
-  buah: ["P001","P004","P005"],
-  penyubur: ["P002","P007","P008"],
-  anti_hama: ["P003"],
-  pH: ["P006"],
-  bio: ["P004","P005"],
-};
-
-// Payment methods
-const paymentMethods = {
-  qris: {
-    name: "QRIS",
-    icon: "📱",
-    desc: "Scan QRIS dengan aplikasi mobile banking",
-    details: "Scan kode QRIS di bawah ini menggunakan aplikasi mobile banking Anda"
-  },
-  bca: {
-    name: "BCA",
-    icon: "🏦",
-    desc: "Transfer ke BCA",
-    details: "No Rek: 1234567890 a.n. Toko Tanaman"
-  },
-  bri: {
-    name: "BRI",
-    icon: "🏦",
-    desc: "Transfer ke BRI",
-    details: "No Rek: 0987654321 a.n. Toko Tanaman"
-  },
-  bni: {
-    name: "BNI",
-    icon: "🏦",
-    desc: "Transfer ke BNI",
-    details: "No Rek: 1122334455 a.n. Toko Tanaman"
-  },
-  mandiri: {
-    name: "Mandiri",
-    icon: "🏦",
-    desc: "Transfer ke Mandiri",
-    details: "No Rek: 5566778899 a.n. Toko Tanaman"
-  },
-  ovo: {
-    name: "OVO",
-    icon: "💳",
-    desc: "Bayar via OVO",
-    details: "No OVO: 081234567890"
-  },
-  gopay: {
-    name: "GoPay",
-    icon: "📱",
-    desc: "Bayar via GoPay",
-    details: "No GoPay: 081234567890"
-  },
-  Dana: {
-    name: "Dana",
-    icon: "💳",
-    desc: "Bayar via Dana",
-    details: "No Dana: 081234567890"
-  }
-};
-
-// ==================== APP ====================
 const app = {
   cart: [],
-  orders: JSON.parse(localStorage.getItem('tokobot_orders') || '[]'),
+  orders: [],
   currentTab: 'catalog',
   searchQuery: '',
   selectedPayment: null,
-  paymentStep: 'method', // method or confirm
 
-  init() {
-    this.loadOrders();
-    this.render();
-    this.checkLowStock();
-  },
+  init() { this.loadOrders(); this.render(); this.checkLowStock(); },
 
-  loadOrders() {
-    try {
-      const saved = localStorage.getItem('tokobot_orders');
-      if (saved) this.orders = JSON.parse(saved);
-    } catch(e) {}
-  },
+  loadOrders() { try { this.orders = JSON.parse(localStorage.getItem('tokobot_orders') || '[]'); } catch(e) { this.orders = []; } },
+  saveOrders() { localStorage.setItem('tokobot_orders', JSON.stringify(this.orders)); },
 
-  saveOrders() {
-    localStorage.setItem('tokobot_orders', JSON.stringify(this.orders));
-  },
-
-  getAllProducts() {
-    let all = [];
-    Object.values(products).forEach(cat => all.push(...cat));
-    return all;
-  },
-
-  findProduct(id) {
-    for (const cat of Object.values(products)) {
-      const p = cat.find(x => x.id === id);
-      if (p) return p;
-    }
-    return null;
-  },
+  getAllProducts() { let all = []; Object.values(products).forEach(c => all.push(...c)); return all; },
+  findProduct(id) { for (const c of Object.values(products)) { const p = c.find(x => x.id === id); if (p) return p; } return null; },
 
   switchTab(tab) {
     this.currentTab = tab;
-    document.querySelectorAll('nav button').forEach((b, i) => {
-      b.classList.toggle('active', ['catalog','cart','payment','orders','inventory'][i] === tab);
-    });
+    document.querySelectorAll('nav button').forEach((b, i) => b.classList.toggle('active', ['catalog','cart','payment','orders','inventory'][i] === tab));
     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
     const sec = document.getElementById('sec-' + tab);
     if (sec) sec.classList.add('active');
-
     if (tab === 'cart') this.renderCart();
     if (tab === 'payment') this.renderPayment();
     if (tab === 'orders') this.renderOrders();
     if (tab === 'inventory') this.renderInventory();
   },
 
-  search() {
-    this.searchQuery = document.getElementById('searchInput').value.toLowerCase();
-    this.renderCatalog();
-  },
+  search() { this.searchQuery = document.getElementById('searchInput').value.toLowerCase(); this.renderCatalog(); },
+
+  render() { this.renderCatalog(); this.updateCartCount(); },
 
   renderCatalog() {
     const grid = document.getElementById('productGrid');
     let all = this.getAllProducts();
-
-    if (this.searchQuery) {
-      all = all.filter(p =>
-        p.name.toLowerCase().includes(this.searchQuery) ||
-        p.id.toLowerCase().includes(this.searchQuery) ||
-        p.cat.toLowerCase().includes(this.searchQuery)
-      );
-    }
-
-    if (all.length === 0) {
-      grid.innerHTML = '<div class="empty-state"><div class="icon">🔍</div><p>Produk tidak ditemukan</p></div>';
-      return;
-    }
-
+    if (this.searchQuery) all = all.filter(p => p.name.toLowerCase().includes(this.searchQuery) || p.id.toLowerCase().includes(this.searchQuery) || p.cat.toLowerCase().includes(this.searchQuery));
+    if (all.length === 0) { grid.innerHTML = '<div class="empty-state"><div class="icon">🔍</div><p>Produk tidak ditemukan</p></div>'; document.getElementById('totalProducts').textContent = 0; return; }
     grid.innerHTML = all.map(p => {
-      const stockClass = p.stock > 10 ? 'stock-ok' : p.stock > 0 ? 'stock-low' : 'stock-out';
-      const stockText = p.stock > 10 ? 'Stok tersedia' : p.stock > 0 ? `Stok tipis (${p.stock})` : 'Habis';
-      return `
-        <div class="product-card">
-          <div class="product-category">${p.cat}</div>
-          <div class="product-name">${p.name}</div>
-          <div class="product-desc">${p.desc}</div>
-          <div class="product-footer">
-            <div class="product-price">Rp ${p.price.toLocaleString()}</div>
-            <span class="product-stock ${stockClass}">${stockText}</span>
-          </div>
-          <div style="margin-top:12px;">
-            <button class="btn-primary btn-sm" onclick="app.addToCart('${p.id}')" ${p.stock === 0 ? 'disabled style="opacity:0.5;cursor:not-allowed;"' : ''}>
-              ${p.stock === 0 ? 'Habis' : '+ Tambah'}
-            </button>
-          </div>
-        </div>
-      `;
+      const sc = p.stock > 10 ? 'stock-ok' : p.stock > 0 ? 'stock-low' : 'stock-out';
+      const st = p.stock > 10 ? 'Stok tersedia' : p.stock > 0 ? 'Stok tipis (' + p.stock + ')' : 'Habis';
+      return '<div class="product-card"><div class="product-category">' + p.cat + '</div><div class="product-name">' + p.name + '</div><div class="product-desc">' + p.desc + '</div><div class="product-footer"><div class="product-price">Rp ' + p.price.toLocaleString() + '</div><span class="product-stock ' + sc + '">' + st + '</span></div><div style="margin-top:12px;"><button class="btn btn-sm" onclick="app.addToCart('' + p.id + '')" ' + (p.stock === 0 ? 'disabled style="opacity:0.5;cursor:not-allowed;"' : '') + '>' + (p.stock === 0 ? 'Habis' : '+ Tambah') + '</button></div></div>';
     }).join('');
-
     document.getElementById('totalProducts').textContent = all.length;
   },
 
   addToCart(id) {
-    const p = this.findProduct(id);
-    if (!p) return;
-
-    const existing = this.cart.find(item => item.id === id);
-    if (existing) {
-      if (existing.qty >= p.stock) {
-        this.toast(`Stok tidak cukup. Tersisa ${p.stock}`, 'error');
-        return;
-      }
-      existing.qty++;
-    } else {
-      this.cart.push({ id, name: p.name, price: p.price, stock: p.stock, qty: 1 });
-    }
-
-    this.updateCart();
-    this.toast(`+1 ${p.name}`, 'success');
+    const p = this.findProduct(id); if (!p) return;
+    const ex = this.cart.find(i => i.id === id);
+    if (ex) { if (ex.qty >= p.stock) { this.toast('Stok tidak cukup', 'error'); return; } ex.qty++; }
+    else { this.cart.push({id, name: p.name, price: p.price, stock: p.stock, qty: 1}); }
+    this.updateCart(); this.toast('+1 ' + p.name, 'success');
   },
-
-  removeFromCart(id) {
-    this.cart = this.cart.filter(item => item.id !== id);
-    this.updateCart();
-  },
-
+  removeFromCart(id) { this.cart = this.cart.filter(i => i.id !== id); this.updateCart(); },
   changeQty(id, delta) {
-    const item = this.cart.find(i => i.id === id);
-    if (!item) return;
+    const item = this.cart.find(i => i.id === id); if (!item) return;
     item.qty += delta;
     if (item.qty <= 0) { this.removeFromCart(id); return; }
-    if (item.qty > item.stock) {
-      item.qty = item.stock;
-      this.toast(`Maksimal stok: ${item.stock}`, 'error');
-    }
+    if (item.qty > item.stock) { item.qty = item.stock; this.toast('Maksimal stok: ' + item.stock, 'error'); }
     this.updateCart();
   },
-
-  updateCart() {
-    const totalItems = this.cart.reduce((sum, i) => sum + i.qty, 0);
-    document.getElementById('cartCount').textContent = totalItems;
-    this.renderCart();
-  },
+  updateCartCount() { document.getElementById('cartCount').textContent = this.cart.reduce((s, i) => s + i.qty, 0); },
+  updateCart() { this.updateCartCount(); this.renderCart(); },
 
   toggleCart() {
-    const sidebar = document.getElementById('cartSidebar');
-    const backdrop = document.getElementById('cartBackdrop');
-    const isOpen = sidebar.classList.contains('open');
-    sidebar.classList.toggle('open', !isOpen);
-    backdrop.style.display = isOpen ? 'none' : 'block';
+    const s = document.getElementById('cartSidebar'), b = document.getElementById('cartBackdrop');
+    const o = s.classList.contains('open');
+    s.classList.toggle('open', !o); b.style.display = o ? 'none' : 'block';
   },
 
   renderCart() {
-    const container = document.getElementById('cartItems');
-    const totalEl = document.getElementById('cartTotal');
-
-    if (this.cart.length === 0) {
-      container.innerHTML = '<div class="empty-state"><div class="icon">🛒</div><p>Keranjang kosong</p></div>';
-      totalEl.textContent = 'Rp 0';
-      return;
-    }
-
-    container.innerHTML = this.cart.map(item => `
-      <div class="cart-item">
-        <div class="cart-item-info">
-          <div class="cart-item-name">${item.name}</div>
-          <div class="cart-item-price">Rp ${item.price.toLocaleString()} / pcs</div>
-        </div>
-        <div class="cart-item-qty">
-          <button onclick="app.changeQty('${item.id}', -1)">−</button>
-          <span>${item.qty}</span>
-          <button onclick="app.changeQty('${item.id}', 1)">+</button>
-        </div>
-      </div>
-    `).join('');
-
-    const total = this.cart.reduce((sum, i) => sum + i.price * i.qty, 0);
-    totalEl.textContent = 'Rp ' + total.toLocaleString();
+    const c = document.getElementById('cartItems'), t = document.getElementById('cartTotal');
+    if (this.cart.length === 0) { c.innerHTML = '<div class="empty-state"><div class="icon">🛒</div><p>Keranjang kosong</p></div>'; t.textContent = 'Rp 0'; return; }
+    c.innerHTML = this.cart.map(i => '<div class="cart-item"><div class="cart-item-info"><div class="cart-item-name">' + i.name + '</div><div class="cart-item-price">Rp ' + i.price.toLocaleString() + ' / pcs</div></div><div class="cart-item-qty"><button onclick="app.changeQty('' + i.id + '', -1)">−</button><span>' + i.qty + '</span><button onclick="app.changeQty('' + i.id + '', 1)">+</button></div></div>').join('');
+    t.textContent = 'Rp ' + this.cart.reduce((s, i) => s + i.price * i.qty, 0).toLocaleString();
   },
 
-  // PAYMENT
-  renderPayment() {
-    const container = document.getElementById('paymentContent');
-    const total = this.cart.reduce((sum, i) => sum + i.price * i.qty, 0);
-
-    if (this.cart.length === 0) {
-      container.innerHTML = '<div class="empty-state"><div class="icon">🛒</div><p>Keranjang kosong. Silakan beli terlebih dahulu.</p><button class="btn-primary" onclick="app.switchTab(\'catalog\')">📦 Lihat Produk</button></div>';
-      return;
-    }
-
-    if (this.paymentStep === 'method') {
-      container.innerHTML = `
-        <div class="alert alert-info">
-          💰 <span><strong>Total Belanja: Rp ${total.toLocaleString()}</strong></span>
-        </div>
-        <div class="payment-section">
-          <h3 style="margin-bottom:16px;color:var(--green);">Pilih Metode Pembayaran</h3>
-          
-          <div class="payment-method ${this.selectedPayment === 'qris' ? 'selected' : ''}" onclick="app.selectPayment('qris')">
-            <h4>📱 QRIS</h4>
-            <p>Scan QRIS dengan aplikasi mobile banking</p>
-          </div>
-          
-          <div class="payment-method ${this.selectedPayment === 'bca' ? 'selected' : ''}" onclick="app.selectPayment('bca')">
-            <h4>🏦 BCA</h4>
-            <p>Transfer ke BCA</p>
-          </div>
-          
-          <div class="payment-method ${this.selectedPayment === 'bri' ? 'selected' : ''}" onclick="app.selectPayment('bri')">
-            <h4>🏦 BRI</h4>
-            <p>Transfer ke BRI</p>
-          </div>
-          
-          <div class="payment-method ${this.selectedPayment === 'bni' ? 'selected' : ''}" onclick="app.selectPayment('bni')">
-            <h4>🏦 BNI</h4>
-            <p>Transfer ke BNI</p>
-          </div>
-          
-          <div class="payment-method ${this.selectedPayment === 'mandiri' ? 'selected' : ''}" onclick="app.selectPayment('mandiri')">
-            <h4>🏦 Mandiri</h4>
-            <p>Transfer ke Mandiri</p>
-          </div>
-          
-          <div class="payment-method ${this.selectedPayment === 'ovo' ? 'selected' : ''}" onclick="app.selectPayment('ovo')">
-            <h4>💳 OVO</h4>
-            <p>Bayar via OVO</p>
-          </div>
-          
-          <div class="payment-method ${this.selectedPayment === 'gopay' ? 'selected' : ''}" onclick="app.selectPayment('gopay')">
-            <h4>📱 GoPay</h4>
-            <p>Bayar via GoPay</p>
-          </div>
-          
-          <div class="payment-method ${this.selectedPayment === 'dana' ? 'selected' : ''}" onclick="app.selectPayment('dana')">
-            <h4>💳 Dana</h4>
-            <p>Bayar via Dana</p>
-          </div>
-        </div>
-        
-        ${this.selectedPayment ? `
-          <button class="btn-primary" style="width:100%;text-align:center;margin-top:16px;" onclick="app.paymentStep='confirm'; app.renderPayment();">
-            ✅ Konfirmasi Pembayaran
-          </button>
-        ` : ''}
-      `;
-    } else if (this.paymentStep === 'confirm') {
-      const method = paymentMethods[this.selectedPayment];
-      const orderId = 'ORD-' + Date.now().toString().slice(-8);
-      
-      container.innerHTML = `
-        <div class="alert alert-info">
-          💰 <span><strong>Total: Rp ${total.toLocaleString()}</strong></span>
-        </div>
-        
-        <div class="payment-section">
-          <h3 style="margin-bottom:16px;color:var(--green);">💳 ${method.icon} ${method.name}</h3>
-          <p style="margin-bottom:16px;">${method.details}</p>
-          
-          ${this.selectedPayment === 'qris' ? `
-            <div class="qris-code">
-              <div class="qr-placeholder">📱</div>
-              <p style="margin-top:12px;color:var(--muted);">Scan kode QRIS di atas<br>menggunakan aplikasi mobile banking</p>
-            </div>
-          ` : ''}
-          
-          ${['bca','bri','bni','mandiri'].includes(this.selectedPayment) ? `
-            <div class="qris-code">
-              <p style="font-size:1.2rem;font-weight:700;color:var(--green);">${method.details}</p>
-              <p style="margin-top:8px;color:var(--muted);">Transfer sejumlah Rp ${total.toLocaleString()}</p>
-            </div>
-          ` : ''}
-          
-          ${['ovo','gopay','dana'].includes(this.selectedPayment) ? `
-            <div class="qris-code">
-              <p style="font-size:1.2rem;font-weight:700;color:var(--green);">${method.details}</p>
-              <p style="margin-top:8px;color:var(--muted);">Bayar sejumlah Rp ${total.toLocaleString()}</p>
-            </div>
-          ` : ''}
-          
-          <div style="margin-top:20px;display:flex;gap:12px;">
-            <button class="btn-primary" style="flex:1;" onclick="app.confirmPayment('${orderId}')">
-              ✅ Saya Sudah Bayar
-            </button>
-            <button class="btn-secondary" style="flex:1;" onclick="app.paymentStep='method'; app.renderPayment();">
-              ↩️ Ganti Metode
-            </button>
-          </div>
-        </div>
-      `;
-    }
-  },
-
-  selectPayment(method) {
-    this.selectedPayment = method;
-    this.renderPayment();
-  },
-
-  confirmPayment(orderId) {
-    if (!this.selectedPayment) {
-      this.toast('Pilih metode pembayaran dulu', 'error');
-      return;
-    }
-
-    const total = this.cart.reduce((sum, i) => sum + i.price * i.qty, 0);
-    const method = paymentMethods[this.selectedPayment];
-
-    // Deduct stock
-    this.cart.forEach(item => {
-      const p = this.findProduct(item.id);
-      if (p) p.stock -= item.qty;
-    });
-
-    // Save order
-    const order = {
-      id: orderId,
-      items: [...this.cart],
-      total,
-      payment: this.selectedPayment,
-      paymentName: method.name,
-      status: 'pending',
-      time: new Date().toLocaleString('id-ID')
-    };
-    this.orders.push(order);
-    this.saveOrders();
-
-    // Clear cart
-    this.cart = [];
-    this.selectedPayment = null;
-    this.paymentStep = 'method';
-    this.updateCart();
-
-    this.toast(`Pesanan ${orderId} berhasil! Total: Rp ${total.toLocaleString()}`, 'success');
-    this.switchTab('orders');
-    this.checkLowStock();
+  checkout() {
+    if (this.cart.length === 0) { this.toast('Keranjang kosong', 'error'); return; }
+    const total = this.cart.reduce((s, i) => s + i.price * i.qty, 0);
+    const oid = 'ORD-' + Date.now().toString().slice(-8);
+    this.cart.forEach(item => { const p = this.findProduct(item.id); if (p) p.stock -= item.qty; });
+    this.orders.push({id: oid, items: [...this.cart], total, paymentName: this.selectedPayment ? paymentMethods.find(x => x.id === this.selectedPayment).name : '-', status: 'confirmed', time: new Date().toLocaleString('id-ID')});
+    this.saveOrders(); this.cart = []; this.selectedPayment = null; this.updateCart(); this.toggleCart();
+    this.toast('Pesanan ' + oid + ' berhasil! Total: Rp ' + total.toLocaleString(), 'success');
+    this.render(); this.checkLowStock();
   },
 
   renderOrders() {
-    const container = document.getElementById('ordersContent');
-
-    if (this.orders.length === 0) {
-      container.innerHTML = '<div class="empty-state"><div class="icon">📭</div><p>Belum ada pesanan</p></div>';
-      return;
-    }
-
-    container.innerHTML = this.orders.slice().reverse().map(o => `
-      <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:16px;box-shadow:var(--shadow);">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-          <strong style="font-family:'Playfair Display',serif;">${o.id}</strong>
-          <span class="pill pill-${o.status}">${o.status}</span>
-        </div>
-        <p style="color:var(--muted);font-size:0.85rem;margin-bottom:8px;">💳 ${o.paymentName || '-'} | ⏰ ${o.time}</p>
-        ${o.items.map(i => `
-          <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);">
-            <span>${i.name} x${i.qty}</span>
-            <span style="font-weight:600;">Rp ${(i.price * i.qty).toLocaleString()}</span>
-          </div>
-        `).join('')}
-        <div style="display:flex;justify-content:space-between;margin-top:12px;font-weight:700;">
-          <span>Total</span>
-          <span style="color:var(--green);font-size:1.1rem;">Rp ${o.total.toLocaleString()}</span>
-        </div>
-      </div>
-    `).join('');
+    const c = document.getElementById('ordersContent');
+    if (this.orders.length === 0) { c.innerHTML = '<div class="empty-state"><div class="icon">📭</div><p>Belum ada pesanan</p></div>'; return; }
+    c.innerHTML = this.orders.slice().reverse().map(o => '<div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:16px;box-shadow:var(--shadow);"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;"><strong style="font-family:Playfair Display,serif;">' + o.id + '</strong><span class="pill pill-' + o.status + '">' + o.status + '</span></div><p style="color:var(--muted);font-size:0.85rem;margin-bottom:8px;">💳 ' + (o.paymentName || '-') + ' | ⏰ ' + o.time + '</p>' + o.items.map(i => '<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);"><span>' + i.name + ' x' + i.qty + '</span><span style="font-weight:600;">Rp ' + (i.price * i.qty).toLocaleString() + '</span></div>').join('') + '<div style="display:flex;justify-content:space-between;margin-top:12px;font-weight:700;"><span>Total</span><span style="color:var(--green);font-size:1.1rem;">Rp ' + o.total.toLocaleString() + '</span></div></div>').join('');
   },
 
   renderInventory() {
-    const container = document.getElementById('inventoryContent');
     let html = '<table><thead><tr><th>ID</th><th>Nama</th><th>Kategori</th><th>Stok</th><th>Harga</th><th>Nilai</th></tr></thead><tbody>';
-
-    let totalItems = 0;
-    let totalValue = 0;
-
-    Object.entries(products).forEach(([cat, items]) => {
-      items.forEach(p => {
-        const value = p.price * p.stock;
-        totalItems += p.stock;
-        totalValue += value;
-        const stockClass = p.stock > 10 ? 'stock-ok' : p.stock > 0 ? 'stock-low' : 'stock-out';
-        html += `
-          <tr>
-            <td>${p.id}</td>
-            <td><strong>${p.name}</strong></td>
-            <td><span class="product-stock ${stockClass}">${p.stock}</span></td>
-            <td>${p.cat}</td>
-            <td>Rp ${p.price.toLocaleString()}</td>
-            <td style="font-weight:600;">Rp ${value.toLocaleString()}</td>
-          </tr>
-        `;
-      });
-    });
-
-    html += `</tbody></table>
-      <div style="margin-top:20px;padding:16px;background:var(--green-light);border-radius:12px;display:flex;justify-content:space-between;align-items:center;">
-        <div>
-          <div style="font-weight:700;color:var(--green);">Total: ${totalItems} item</div>
-          <div style="color:var(--muted);font-size:0.85rem;">Nilai inventori: Rp ${totalValue.toLocaleString()}</div>
-        </div>
-        <div style="font-size:2rem;font-weight:900;color:var(--green);">Rp ${totalValue.toLocaleString()}</div>
-      </div>
-    `;
-
-    container.innerHTML = html;
+    let ti = 0, tv = 0;
+    Object.entries(products).forEach(([cat, items]) => items.forEach(p => { const v = p.price * p.stock; ti += p.stock; tv += v; const sc = p.stock > 10 ? 'stock-ok' : p.stock > 0 ? 'stock-low' : 'stock-out'; html += '<tr><td>' + p.id + '</td><td><strong>' + p.name + '</strong></td><td>' + p.cat + '</td><td><span class="product-stock ' + sc + '">' + p.stock + '</span></td><td>Rp ' + p.price.toLocaleString() + '</td><td style="font-weight:600;">Rp ' + v.toLocaleString() + '</td></tr>'; }));
+    html += '</tbody></table><div style="margin-top:20px;padding:16px;background:var(--green-light);border-radius:12px;display:flex;justify-content:space-between;align-items:center;"><div><div style="font-weight:700;color:var(--green);">Total: ' + ti + ' item</div><div style="color:var(--muted);font-size:0.85rem;">Nilai inventori</div></div><div style="font-size:2rem;font-weight:900;color:var(--green);">Rp ' + tv.toLocaleString() + '</div></div>';
+    document.getElementById('inventoryContent').innerHTML = html;
   },
 
   checkLowStock() {
-    const low = [];
-    Object.values(products).forEach(cat => cat.forEach(p => {
-      if (p.stock < 10) low.push(p);
-    }));
-
-    const alertBox = document.getElementById('alertBox');
-    if (low.length > 0) {
-      alertBox.innerHTML = `
-        <div class="alert alert-warning">
-          ⚠️ <span><strong>Stok rendah:</strong> ${low.map(p => p.name + ' (' + p.stock + ' tersisa)').join(', ')}</span>
-        </div>
-      `;
-    } else {
-      alertBox.innerHTML = `
-        <div class="alert alert-success">
-          ✅ <span><strong>Semua stok tersedia</strong> — tidak ada yang menipis</span>
-        </div>
-      `;
-    }
-
-    const stockAlert = document.getElementById('stockAlert');
-    if (low.length > 0) {
-      stockAlert.textContent = `⚠️ ${low.length} produk stok tipis`;
-      stockAlert.style.color = '#ffcc02';
-    } else {
-      stockAlert.textContent = '✅ Semua stok OK';
-      stockAlert.style.color = '#a5d6a7';
-    }
+    const low = []; Object.values(products).forEach(c => c.forEach(p => { if (p.stock < 10) low.push(p); }));
+    const ab = document.getElementById('alertBox');
+    if (low.length > 0) ab.innerHTML = '<div class="alert alert-warning">⚠️ <span><strong>Stok rendah:</strong> ' + low.map(p => p.name + ' (' + p.stock + ')').join(', ') + '</span></div>';
+    else ab.innerHTML = '<div class="alert alert-success">✅ <span><strong>Semua stok tersedia</strong></span></div>';
+    const sa = document.getElementById('stockAlert');
+    if (low.length > 0) { sa.textContent = '⚠️ ' + low.length + ' produk stok tipis'; sa.style.color = '#ffcc02'; }
+    else { sa.textContent = '✅ Semua stok OK'; sa.style.color = '#a5d6a7'; }
   },
 
-  toast(msg, type = 'info') {
-    const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.className = 'toast ' + type + ' show';
-    setTimeout(() => t.classList.remove('show'), 2500);
-  }
+  toast(msg, type) { const t = document.getElementById('toast'); t.textContent = msg; t.className = 'toast ' + (type || 'info') + ' show'; setTimeout(() => t.classList.remove('show'), 2500); }
+};
+
+// ==================== PAYMENT ====================
+const paymentMethods = [
+  {id:'qris', name:'QRIS', icon:'📱', desc:'Scan QR code, bayar via aplikasi apapun', number:''},
+  {id:'bca', name:'BCA', icon:'🏦', desc:'Transfer Bank Central Asia', number:'0123456789'},
+  {id:'bri', name:'BRI', icon:'🏦', desc:'Transfer Bank Rakyat Indonesia', number:'0987654321'},
+  {id:'bni', name:'BNI', icon:'🏦', desc:'Transfer Bank Negara Indonesia', number:'1234567890'},
+  {id:'mandiri', name:'Mandiri', icon:'🏦', desc:'Transfer Bank Mandiri', number:'0456789123'},
+  {id:'ovo', name:'OVO', icon:'💳', desc:'Dompet digital OVO', number:'081234567890'},
+  {id:'gopay', name:'GoPay', icon:'📱', desc:'Dompet digital GoPay', number:'081298765432'},
+  {id:'dana', name:'DANA', icon:'💳', desc:'Dompet digital DANA', number:'081256789012'},
+];
+
+app.renderPayment = function() {
+  const c = document.getElementById('paymentContent');
+  const total = app.cart.reduce((s, i) => s + i.price * i.qty, 0);
+  if (total === 0) { c.innerHTML = '<div class="empty-state"><div class="icon">🛒</div><p>Keranjang kosong. Tambah produk dulu.</p><button class="btn" style="margin-top:16px;" onclick="app.switchTab(\'catalog\')">Lihat Catalog</button></div>'; return; }
+  let html = '<div class="alert alert-info">💰 <strong>Total belanja: Rp ' + total.toLocaleString() + '</strong> — Pilih metode pembayaran di bawah</div>';
+  html += '<div class="payment-methods">';
+  paymentMethods.forEach(m => {
+    html += '<div class="payment-method" onclick="app.selectPayment(\'' + m.id + '\')" id="pm-' + m.id + '"><div class="pm-icon">' + m.icon + '</div><div><h4>' + m.name + '</h4><p>' + m.desc + (m.number ? ' | No: ' + m.number : '') + '</p></div></div>';
+  });
+  html += '</div><div id="paymentDetail" class="payment-confirm"><h4>✅ Pembayaran Dipilih</h4><p id="paymentDetailText"></p><button class="btn" style="margin-top:12px;" onclick="app.confirmPayment()">Konfirmasi Bayar</button></div>';
+  c.innerHTML = html;
+};
+
+app.selectPayment = function(id) {
+  app.selectedPayment = id;
+  document.querySelectorAll('.payment-method').forEach(el => el.classList.remove('selected'));
+  document.getElementById('pm-' + id).classList.add('selected');
+  const m = paymentMethods.find(x => x.id === id);
+  const total = app.cart.reduce((s, i) => s + i.price * i.qty, 0);
+  document.getElementById('paymentDetail').classList.add('show');
+  document.getElementById('paymentDetailText').textContent = m.name + ' — Total: Rp ' + total.toLocaleString();
+};
+
+app.confirmPayment = function() {
+  if (!app.selectedPayment) { app.toast('Pilih metode pembayaran dulu', 'error'); return; }
+  const m = paymentMethods.find(x => x.id === app.selectedPayment);
+  const total = app.cart.reduce((s, i) => s + i.price * i.qty, 0);
+  const oid = 'ORD-' + Date.now().toString().slice(-8);
+  app.cart.forEach(item => { const p = app.findProduct(item.id); if (p) p.stock -= item.qty; });
+  app.orders.push({id: oid, items: [...app.cart], total, payment: m.id, paymentName: m.name, status: 'confirmed', time: new Date().toLocaleString('id-ID')});
+  app.saveOrders();
+  app.cart = []; app.selectedPayment = null; app.updateCart();
+  document.getElementById('paymentDetail').classList.remove('show');
+  document.querySelectorAll('.payment-method').forEach(el => el.classList.remove('selected'));
+  app.toast('Pesanan ' + oid + ' berhasil via ' + m.name + '!', 'success');
+  app.switchTab('orders');
+  app.render(); app.checkLowStock();
 };
 
 // ==================== CHATBOT ====================
 class SalesBot {
-  constructor() {
-    this.cart = [];
-    this.orders = JSON.parse(localStorage.getItem('bot_orders') || '[]');
-  }
-
+  constructor() { this.cart = []; this.orders = []; }
   findProduct(query) {
     query = query.toUpperCase().trim();
-    for (const cat of Object.values(products)) {
-      for (const p of cat) {
-        if (query === p.id || query === p.name.toUpperCase()) return p;
-      }
-    }
-    for (const cat of Object.values(products)) {
-      for (const p of cat) {
-        if (p.name.toUpperCase().includes(query) || query.includes(p.name.toUpperCase())) return p;
-      }
-    }
+    for (const c of Object.values(products)) { const p = c.find(x => x.id === query || x.name.toUpperCase() === query); if (p) return p; }
+    for (const c of Object.values(products)) { const p = c.find(x => x.name.toUpperCase().includes(query) || query.includes(x.name.toUpperCase())); if (p) return p; }
     return null;
   }
-
   getRecommendations(intent) {
     intent = intent.toLowerCase().trim();
-    if (recommendations[intent]) {
-      const ids = recommendations[intent];
-      const result = [];
-      for (const cat of Object.values(products)) {
-        for (const p of cat) {
-          if (ids.includes(p.id) && p.stock > 0) result.push(p);
-        }
-      }
-      if (result.length > 0) return result;
-    }
-    if (pupukRec[intent]) {
-      const ids = pupukRec[intent];
-      const result = [];
-      for (const cat of Object.values(products)) {
-        for (const p of cat) {
-          if (ids.includes(p.id) && p.stock > 0) result.push(p);
-        }
-      }
-      if (result.length > 0) return result;
-    }
-    const all = [];
-    for (const cat of Object.values(products)) {
-      for (const p of cat) {
-        if (p.stock > 0) all.push(p);
-      }
-    }
+    const recMap = {hias:["T001","T002","T005","T008"],mudah:["T002","T004","T006"],bunga:["T003","T007"],air:["T006"],indoor:["T001","T005"],outdoor:["T008","T002"],pemula:["T002","T004","T006"],premium:["T007","T005"],murah:["T006","T004","T001"],hemat:["T004","T006","T008"]};
+    if (recMap[intent]) { const ids = recMap[intent], r = []; for (const c of Object.values(products)) for (const p of c) if (ids.includes(p.id) && p.stock > 0) r.push(p); if (r.length > 0) return r; }
+    const all = []; for (const c of Object.values(products)) for (const p of c) if (p.stock > 0) all.push(p);
     return all.slice(0, 5);
   }
-
-  checkStock(productId) {
-    const p = this.findProduct(productId);
-    if (!p) return null;
-    return { id: p.id, name: p.name, stock: p.stock, status: p.stock > 10 ? 'Tersedia' : p.stock > 0 ? 'Stok Tipis' : 'Habis' };
-  }
-
-  addToCart(productId, qty = 1) {
-    const p = this.findProduct(productId);
-    if (!p) return {success: false, msg: 'Produk tidak ditemukan'};
-    if (p.stock < qty) return {success: false, msg: `Stok tidak cukup. Tersedia: ${p.stock}`};
-    const existing = this.cart.find(item => item.id === p.id);
-    if (existing) {
-      if (existing.qty + qty > p.stock) return {success: false, msg: `Stok tidak cukup. Maksimal: ${p.stock - existing.qty}`};
-      existing.qty += qty;
-      return {success: true, msg: `✅ ${p.name} x${existing.qty} ditambahkan`};
-    }
-    this.cart.push({id: p.id, name: p.name, price: p.price, qty});
-    return {success: true, msg: `✅ ${p.name} x${qty} ditambahkan ke keranjang`};
-  }
-
-  getCartTotal() {
-    return this.cart.reduce((sum, item) => sum + item.price * item.qty, 0);
-  }
-
-  getCartSummary() {
-    if (this.cart.length === 0) return '🛒 Keranjang kosong';
-    let lines = ['🛒 *KERANJANG*'];
-    for (const item of this.cart) {
-      const subtotal = item.price * item.qty;
-      lines.push(`  ${item.name} x${item.qty} = Rp ${subtotal.toLocaleString()}`);
-    }
-    const total = this.getCartTotal();
-    lines.push(`\\n💰 *TOTAL: Rp ${total.toLocaleString()}*`);
-    return lines.join('\\n');
-  }
-
-  checkout() {
-    if (this.cart.length === 0) return {success: false, msg: 'Keranjang kosong'};
-    const total = this.getCartTotal();
-    const orderId = 'ORD-' + Date.now().toString().slice(-8);
-    for (const item of this.cart) {
-      const p = this.findProduct(item.id);
-      if (p) p.stock -= item.qty;
-    }
-    const order = { id: orderId, items: [...this.cart], total, status: 'pending', time: new Date().toLocaleString('id-ID') };
-    this.orders.push(order);
-    localStorage.setItem('bot_orders', JSON.stringify(this.orders));
-    this.cart = [];
-    return {
-      success: true,
-      msg: `✅ *Pesanan Berhasil!*\\n\\n🆔 ${orderId}\\n💰 Total: Rp ${total.toLocaleString()}\\n📌 Status: pending\\n\\nTransfer ke rekening toko & kirim bukti ✅`
-    };
-  }
+  checkStock(id) { const p = this.findProduct(id); if (!p) return null; return {id:p.id,name:p.name,stock:p.stock,status:p.stock>10?'Tersedia':p.stock>0?'Stok Tipis':'Habis'}; }
+  addToCart(id, qty=1) { const p = this.findProduct(id); if (!p) return {success:false,msg:'Produk tidak ditemukan'}; if (p.stock < qty) return {success:false,msg:'Stok tidak cukup. Tersedia: '+p.stock}; const ex = this.cart.find(i=>i.id===id); if (ex) { if (ex.qty+qty > p.stock) return {success:false,msg:'Stok tidak cukup. Maksimal: '+p.stock}; ex.qty += qty; return {success:true,msg:'✅ '+p.name+' x'+ex.qty+' ditambahkan'}; } this.cart.push({id:id,name:p.name,price:p.price,qty:qty}); return {success:true,msg:'✅ '+p.name+' x'+qty+' ditambahkan'}; }
+  getCartTotal() { return this.cart.reduce((s,i)=>s+i.price*i.qty,0); }
+  getCartSummary() { if (this.cart.length===0) return '🛒 Keranjang kosong'; let l=['🛒 KERANJANG']; this.cart.forEach(i=>l.push('  '+i.name+' x'+i.qty+' = Rp '+(i.price*i.qty).toLocaleString())); l.push(''); l.push('💰 TOTAL: Rp '+this.getCartTotal().toLocaleString()); return l.join('\n'); }
+  checkout() { if (this.cart.length===0) return {success:false,msg:'Keranjang kosong'}; const total=this.getCartTotal(), oid='ORD-'+Date.now().toString().slice(-8); this.cart.forEach(item=>{const p=this.findProduct(item.id);if(p)p.stock-=item.qty;}); const o={id:oid,items:[...this.cart],total,status:'confirmed',time:new Date().toLocaleString('id-ID')}; this.orders.push(o); app.orders.push(o); app.saveOrders(); this.cart=[]; return {success:true,msg:'✅ PESANAN BERHASIL!\n\n🆔 '+oid+'\n💰 Total: Rp '+total.toLocaleString()+'\n📌 Status: confirmed\n\nTransfer ke rekening toko & kirim bukti ✅'}; }
 
   processMessage(msg) {
     msg = msg.toLowerCase().trim();
-
-    // Greeting
-    const greetingWords = ['hai ', 'halo ', 'hello ', 'hi ', 'pagi ', 'siang ', 'malam '];
-    const isGreeting = greetingWords.some(g => msg.startsWith(g) || msg === g.trim());
-    if (isGreeting) {
-      const names = ['Bang', 'Mbak', 'Kak', 'Pak'];
-      return `👋 Halo ${names[Math.floor(Math.random() * names.length)]}! Selamat datang di Toko Tanaman & Pupuk. Ada yang bisa dibantu? Ketik *catalog* untuk lihat produk.`;
-    }
-
-    if (msg.includes('catalog') || msg.includes('produk') || msg.includes('daftar') || msg.includes('menu')) {
-      let lines = ['🌿 *KATALOG PRODUK*🌿\\n'];
-      for (const [cat, items] of Object.entries(products)) {
-        lines.push(`📦 *${cat.toUpperCase()}*`);
-        for (const p of items) {
-          const stockIcon = p.stock > 10 ? '✅' : p.stock > 0 ? '⚠️' : '❌';
-          lines.push(`  ${stockIcon} ${p.name} - Rp ${p.price.toLocaleString()} (stok: ${p.stock})`);
-        }
-        lines.push('');
-      }
-      lines.push('💬 Ketik *rekomendasi* untuk saran');
-      lines.push('💬 Ketik *stok <nama>* untuk cek stok');
-      lines.push('💬 Ketik *beli <produk> <jumlah>* untuk order');
-      return lines.join('\\n');
-    }
-
-    if (msg.includes('rekomendasi') || msg.includes('sarankan') || msg.includes('anjurkan')) {
-      const intent = msg.replace(/rekomendasi|sarankan|anjurkan/g, '').trim();
-      const recs = this.getRecommendations(intent || 'hias');
-      if (recs.length === 0) return '❌ Tidak ada rekomendasi tersedia';
-      let lines = [`💡 *REKOMENDASI* untuk '${intent || 'hias}':\\n`];
-      for (const p of recs) {
-        lines.push(`  🌱 ${p.name} - Rp ${p.price.toLocaleString()}`);
-        lines.push(`     Stok: ${p.stock} | ${p.desc}`);
-      }
-      lines.push('\\n💬 Ketik *beli <id> <jumlah>* untuk order');
-      return lines.join('\\n');
-    }
-
-    if (msg.includes('stok')) {
-      const query = msg.replace('stok', '').trim();
-      if (!query) return '💬 Ketik *stok <nama produk>* untuk cek stok\\nContoh: *stok sirih gading*';
-      const p = this.findProduct(query);
-      if (!p) return `❌ Produk '${query}' tidak ditemukan`;
-      const status = p.stock > 10 ? '✅ Tersedia' : p.stock > 0 ? '⚠️ Stok Tipis' : '❌ Habis';
-      return `📦 *${p.name}*\\n  Stok: ${p.stock}\\n  Status: ${status}\\n  Harga: Rp ${p.price.toLocaleString()}`;
-    }
-
-    if (msg.includes('beli') || msg.includes('order')) {
-      const parts = msg.replace(/beli|order/g, '').trim().split(/\\s+/);
-      if (parts.length < 1 || !parts[0]) return '💬 Ketik *beli <nama produk> <jumlah>*\\nContoh: *beli sirih gading 2*';
-      const qty = parseInt(parts[parts.length - 1]) || 1;
-      const productName = parts.slice(0, -1).join(' ').trim() || parts[0];
-      const p = this.findProduct(productName);
-      if (!p) return `❌ Produk '${productName}' tidak ditemukan\\nKetik *catalog* untuk lihat produk`;
-      if (p.stock < qty) return `❌ Stok ${p.name} tidak cukup. Tersedia: ${p.stock}`;
-      return this.addToCart(p.id, qty).msg;
-    }
-
-    if (msg.includes('keranjang') || msg.includes('cart') || msg.includes('lihat belanja')) {
-      return this.getCartSummary();
-    }
-
-    if (msg.includes('total') || msg.includes('berapa')) {
-      const total = this.getCartTotal();
-      if (total === 0) return '💬 Keranjang kosong. Ketik *beli <produk> <jumlah>* untuk mulai belanja.';
-      return `💰 *TOTAL BELANJA: Rp ${total.toLocaleString()}*`;
-    }
-
-    if (msg.includes('checkout') || msg.includes('bayar') || msg.includes('selesai')) {
-      return this.checkout().msg;
-    }
-
-    if (msg.includes('help') || msg.includes('bantuan') || msg.includes('perintah')) {
-      return `📋 *PERINTAH BOT:*
-🌿 catalog — lihat semua produk
-💡 rekomendasi — saran produk
-📦 stok <nama> — cek stok
-🛒 beli <nama> <jumlah> — beli
-🛍️ keranjang — lihat keranjang
-💰 total — hitung total
-✅ checkout — selesaikan pesanan
-💳 pembayaran — info metode bayar
-❓ help — bantuan`;
-    }
-
-    if (msg.includes('pembayaran') || msg.includes('bayar')) {
-      return `💳 *METODE PEMBAYARAN:*
-📱 QRIS — Scan QR code
-🏦 BCA — Transfer BCA
-🏦 BRI — Transfer BRI
-🏦 BNI — Transfer BNI
-🏦 Mandiri — Transfer Mandiri
-💳 OVO — Bayar OVO
-📱 GoPay — Bayar GoPay
-💳 Dana — Bayar Dana
-
-Ketik *checkout* untuk pesanan`;
-    }
-
-    return `🤖 Maaf, saya tidak mengerti "${msg}". Ketik *help* untuk melihat perintah yang tersedia.`;
+    if (['hai ','halo ','hello ','hi ','pagi ','siang ','malam '].some(g=>msg.startsWith(g)||msg===g.trim())) return '👋 Halo! Selamat datang di Toko Tanaman & Pupuk. Ketik catalog untuk lihat produk.';
+    if (msg.includes('catalog')||msg.includes('produk')||msg.includes('daftar')) { let l=['🌿 KATALOG PRODUK🌿\n']; Object.entries(products).forEach(([cat,items])=>{l.push('📦 '+cat.toUpperCase());items.forEach(p=>{const s=p.stock>10?'✅':p.stock>0?'⚠️':'❌';l.push('  '+s+' '+p.name+' - Rp '+p.price.toLocaleString()+' (stok: '+p.stock+')');});l.push('');}); l.push('💬 rekomendasi — saran produk'); l.push('💬 stok <nama> — cek stok'); l.push('💬 beli <nama> <jumlah> — order'); l.push('💬 keranjang — lihat keranjang'); l.push('💬 total — hitung total'); l.push('💬 checkout — selesaikan'); return l.join('\n'); }
+    if (msg.includes('rekomendasi')||msg.includes('sarankan')) { const intent=msg.replace(/rekomendasi|sarankan/g,'').trim()||'hias'; const recs=this.getRecommendations(intent); if(!recs.length) return '❌ Tidak ada rekomendasi'; let l=['💡 REKOMENDASI untuk "'+intent+'":\n']; recs.forEach(p=>l.push('  🌱 '+p.name+' - Rp '+p.price.toLocaleString()+' | Stok: '+p.stock)); l.push(''); l.push('💬 Ketik beli <id> <jumlah> untuk order'); return l.join('\n'); }
+    if (msg.includes('stok')) { const q=msg.replace('stok','').trim(); if(!q) return '💬 Ketik stok <nama produk>\nContoh: stok sirih gading'; const p=this.findProduct(q); if(!p) return '❌ Produk "'+q+'" tidak ditemukan'; const s=p.stock>10?'✅ Tersedia':p.stock>0?'⚠️ Stok Tipis':'❌ Habis'; return '📦 '+p.name+'\n  Stok: '+p.stock+'\n  Status: '+s+'\n  Harga: Rp '+p.price.toLocaleString(); }
+    if (msg.includes('beli')||msg.includes('order')) { const parts=msg.replace(/beli|order/g,'').trim().split(/\s+/); if(!parts.length||!parts[0]) return '💬 Ketik beli <nama> <jumlah>\nContoh: beli sirih gading 2'; const qty=parseInt(parts[parts.length-1])||1; const pname=parts.slice(0,-1).join(' ').trim()||parts[0]; const p=this.findProduct(pname); if(!p) return '❌ Produk "'+pname+'" tidak ditemukan\nKetik catalog untuk lihat produk'; if(p.stock<qty) return '❌ Stok '+p.name+' tidak cukup. Tersedia: '+p.stock; return this.addToCart(p.id,qty).msg; }
+    if (msg.includes('keranjang')||msg.includes('cart')) return this.getCartSummary();
+    if (msg.includes('total')||msg.includes('berapa')) { const t=this.getCartTotal(); if(t===0) return '💬 Keranjang kosong. Ketik beli <produk> <jumlah>'; return '💰 TOTAL: Rp '+t.toLocaleString(); }
+    if (msg.includes('checkout')||msg.includes('bayar')||msg.includes('selesai')) return this.checkout().msg;
+    if (msg.includes('help')||msg.includes('bantuan')) return '📋 PERINTAH BOT:\n🌿 catalog — lihat produk\n💡 rekomendasi — saran\n📦 stok <nama> — cek stok\n🛒 beli <nama> <jumlah> — order\n🛍️ keranjang — lihat keranjang\n💰 total — hitung total\n✅ checkout — selesaikan\n❓ help — bantuan';
+    return '🤖 Maaf, saya tidak mengerti "'+msg+'". Ketik help untuk perintah.';
   }
 }
 
-const salesBot = new SalesBot();
+const bot = new SalesBot();
 
-function toggleChat() {
-  const win = document.getElementById('chatWindow');
-  const toggle = document.getElementById('chatToggle');
-  win.classList.toggle('open');
-  toggle.textContent = win.classList.contains('open') ? '✕' : '💬';
-}
-
-function sendChat() {
-  const input = document.getElementById('chatInput');
-  const msg = input.value.trim();
-  if (!msg) return;
-  addChatMessage(msg, 'user');
-  input.value = '';
-  setTimeout(() => {
-    const response = salesBot.processMessage(msg);
-    addChatMessage(response, 'bot');
-  }, 400);
-}
-
-function sendQuick(text) {
-  addChatMessage(text, 'user');
-  setTimeout(() => {
-    const response = salesBot.processMessage(text);
-    addChatMessage(response, 'bot');
-  }, 400);
-}
-
-function handleChatKey(e) {
-  if (e.key === 'Enter') sendChat();
-}
-
-function addChatMessage(text, sender) {
-  const chatBox = document.getElementById('chatMessages');
-  const msgDiv = document.createElement('div');
-  msgDiv.className = `chat-message ${sender}`;
-  let formatted = text
-    .replace(/\\*\\*([^*]+)\\*\\*/g, '<strong>$1</strong>')
-    .replace(/\\*([^*]+)\\*/g, '<em>$1</em>')
-    .replace(/\\n/g, '<br>');
-  msgDiv.innerHTML = `<div class="msg-text">${formatted}</div>`;
-  chatBox.appendChild(msgDiv);
-  chatBox.scrollTop = chatBox.scrollHeight;
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  setTimeout(() => {
-    addChatMessage('👋 Halo! Selamat datang di Toko Tanaman & Pupuk. Ada yang bisa dibantu? Ketik *catalog* untuk lihat produk.', 'bot');
-  }, 600);
-});
+function toggleChat() { const w=document.getElementById('chatWindow'),t=document.getElementById('chatToggle');w.classList.toggle('open');t.textContent=w.classList.contains('open')?'✕':'💬'; }
+function sendChat() { const i=document.getElementById('chatInput'),m=i.value.trim();if(!m)return;i.value='';addMsg(m,'user');setTimeout(()=>addMsg(bot.processMessage(m),'bot'),400); }
+function sendQuick(t){addMsg(t,'user');setTimeout(()=>addMsg(bot.processMessage(t),'bot'),400);}
+function handleKey(e){if(e.key==='Enter')sendChat();}
+function addMsg(text,sender){const box=document.getElementById('chatMessages'),d=document.createElement('div');d.className='chat-message '+sender;d.textContent=text;box.appendChild(d);box.scrollTop=box.scrollHeight;}
+document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>addMsg('👋 Halo! Selamat datang di Toko Tanaman & Pupuk. Ketik catalog untuk lihat produk.','bot'),600));
 </script>
 
-  <!-- CHATBOT TOGGLE -->
-  <button class="chat-toggle" onclick="toggleChat()" id="chatToggle">💬</button>
-  
-  <!-- CHAT WINDOW -->
-  <div class="chat-window" id="chatWindow">
-    <div class="chat-header">
-      <h3>🤖 Bot Toko Tanaman</h3>
-      <button class="chat-close" onclick="toggleChat()">✕</button>
-    </div>
-    <div class="chat-messages" id="chatMessages"></div>
-    <div class="chat-quick-replies" id="quickReplies">
-      <button class="quick-reply" onclick="sendQuick('catalog')">📦 Catalog</button>
-      <button class="quick-reply" onclick="sendQuick('rekomendasi')">💡 Rekomendasi</button>
-      <button class="quick-reply" onclick="sendQuick('beli')">🛒 Beli</button>
-      <button class="quick-reply" onclick="sendQuick('pembayaran')">💳 Bayar</button>
-    </div>
-    <div class="chat-input-area">
-      <input type="text" id="chatInput" placeholder="Ketik pesan..." onkeypress="handleChatKey(event)">
-      <button onclick="sendChat()">➤</button>
-    </div>
+<button class="chat-toggle" onclick="toggleChat()" id="chatToggle">💬</button>
+<div class="chat-window" id="chatWindow">
+  <div class="chat-header"><h3>🤖 Bot Toko Tanaman</h3><button class="chat-close" onclick="toggleChat()">✕</button></div>
+  <div class="chat-messages" id="chatMessages"></div>
+  <div class="chat-quick-replies">
+    <button class="quick-reply" onclick="sendQuick('catalog')">📦 Catalog</button>
+    <button class="quick-reply" onclick="sendQuick('rekomendasi')">💡 Rekomendasi</button>
+    <button class="quick-reply" onclick="sendQuick('beli')">🛒 Beli</button>
+    <button class="quick-reply" onclick="sendQuick('keranjang')">🛍️ Keranjang</button>
   </div>
-  
-  <!-- CHATBOT SCRIPT -->
-  <script>
-  // Bot data and logic would be loaded here
-  // The chatbot uses the same products data from the main app
-  </script>
+  <div class="chat-input-area">
+    <input type="text" id="chatInput" placeholder="Ketik pesan..." onkeypress="handleKey(event)">
+    <button onclick="sendChat()">➤</button>
+  </div>
+</div>
+
 </body>
 </html>
