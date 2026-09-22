@@ -57,16 +57,134 @@ SalesBot.prototype.getCartTotal=function(){return this.cart.reduce(function(s,i)
 SalesBot.prototype.getCartSummary=function(){if(this.cart.length===0)return"[!] Keranjang kosong";var l=["[ cart ]"];this.cart.forEach(function(i){l.push("  "+i.name+" x"+i.qty+" = Rp "+(i.price*i.qty).toLocaleString())});l.push("");l.push("[ TOTAL: Rp "+this.getCartTotal().toLocaleString()+" ]");return l.join("\n")};
 SalesBot.prototype.checkout=function(){if(this.cart.length===0)return{success:false,msg:"Keranjang kosong"};var total=this.getCartTotal(),oid="ORD-"+Date.now().toString().slice(-8);var bot=this;this.cart.forEach(function(item){var p=bot.findProduct(item.id);if(p)p.stock-=item.qty});var o={id:oid,items:this.cart.slice(),total:total,status:"confirmed",time:new Date().toLocaleString("id-ID")};this.orders.push(o);app.orders.push(o);app.saveOrders();this.cart=[];return{success:true,msg:"[OK] PESANAN BERHASIL!\n\n[ ID: "+oid+" ]\n[ TOTAL: Rp "+total.toLocaleString()+" ]\n[ STATUS: confirmed ]\n\nTransfer ke rekening toko & kirim bukti"}};
 SalesBot.prototype.processMessage=function(msg){
-msg=msg.toLowerCase().trim();
-var greetings=["hai ","halo ","hello ","hi ","pagi ","siang ","malam "];
-var isGreeting=greetings.some(function(g){return msg.indexOf(g)===0||msg===g.trim()});
-if(isGreeting)return"[Hi] Halo! Selamat datang di Toko Tanaman & Pupuk. Ketik catalog untuk lihat produk.";
-if(msg.indexOf("catalog")!==-1||msg.indexOf("produk")!==-1||msg.indexOf("daftar")!==-1){
-var l=["[ KATALOG PRODUK ]\n"];Object.entries(products).forEach(function(entry){var cat=entry[0],items=entry[1];l.push("[ "+cat.toUpperCase()+" ]");items.forEach(function(p){var s=p.stock>10?"[+]":p.stock>0?"[!]":"[-]";l.push("  "+s+" "+p.name+" - Rp "+p.price.toLocaleString()+" (stok: "+p.stock+")")});l.push("")});l.push("[ rekomendasi ] - saran produk");l.push("[ stok <nama> ] - cek stok");l.push("[ beli <nama> <jumlah> ] - order");l.push("[ keranjang ] - lihat keranjang");l.push("[ total ] - hitung total");l.push("[ checkout ] - selesai");return l.join("\n")};
-if(msg.indexOf("rekomendasi")!==-1||msg.indexOf("sarankan")!==-1){var intent=msg.replace(/rekomendasi|sarankan/g,"").trim()||"hias";var recs=this.getRec(intent);if(!recs.length)return"[!] Tidak ada rekomendasi";var l=["[ REKOMENDASI ] untuk \""+intent+"\":\n"];recs.forEach(function(p){l.push("  [*] "+p.name+" - Rp "+p.price.toLocaleString()+" | Stok: "+p.stock)});l.push("");l.push("[ beli <id> <jumlah> ] untuk order");return l.join("\n")};
-if(msg.indexOf("stok")!==-1){var q=msg.replace("stok","").trim();if(!q)return"[?] Ketik: stok <nama produk>\nContoh: stok sirih gading";var p=this.findProduct(q);if(!p)return"[!] Produk \""+q+"\" tidak ditemukan";var s=p.stock>10?"[+] Tersedia":p.stock>0?"[!] Stok Tipis":"[-] Habis";return"[ "+p.name+" ]\n  Stok: "+p.stock+"\n  Status: "+s+"\n  Harga: Rp "+p.price.toLocaleString()};if(msg.indexOf("beli")!==-1||msg.indexOf("order")!==-1){var parts=msg.replace(/beli|order/g,"").trim().split(/\s+/);if(!parts.length||!parts[0])return"[?] Ketik: beli <nama> <jumlah>\nContoh: beli sirih gading 2";var qty=parseInt(parts[parts.length-1])||1;var pname=parts.slice(0,-1).join(" ").trim()||parts[0];var p=this.findProduct(pname);if(!p)return"[!] Produk \""+pname+"\" tidak ditemukan\nKetik catalog untuk lihat produk";if(p.stock<qty)return"[!] Stok "+p.name+" tidak cukup. Tersedia: "+p.stock;return this.addToCart(p.id,qty).msg};if(msg.indexOf("keranjang")!==-1||msg.indexOf("cart")!==-1)return this.getCartSummary();if(msg.indexOf("total")!==-1||msg.indexOf("berapa")!==-1){var t=this.getCartTotal();if(t===0)return"[!] Keranjang kosong. Ketik beli <produk> <jumlah>";return"[ TOTAL: Rp "+t.toLocaleString()+" ]"};if(msg.indexOf("checkout")!==-1||msg.indexOf("bayar")!==-1||msg.indexOf("selesai")!==-1)return this.checkout().msg;if(msg.indexOf("help")!==-1||msg.indexOf("bantuan")!==-1)return"[ PERINTAH BOT ]\n[*] catalog - lihat produk\n[!] rekomendasi - saran\n[=] stok <nama> - cek stok\n[+] beli <nama> <jumlah> - order\n[@] keranjang - lihat keranjang\n[#] total - hitung total\n[$] checkout - selesai\n[?] help - bantuan";return"[??] Maaf, saya tidak mengerti \""+msg+"\". Ketik help untuk perintah.";
-};
-var bot=new SalesBot();
+msg=(msg||"").toString().toLowerCase().replace(/[^a-z0-9\s]/g," ").replace(/\s+/g," ").trim();
+var self=this;
+var hasAny=function(){for(var i=0;i<arguments.length;i++){if(msg.indexOf(arguments[i])!==-1)return true}return false};
+var infoOf=function(p){return "\uD83C\uDF3F "+p.name+"\nHarga: Rp "+p.price.toLocaleString()+"\nStok: "+p.stock+"\nKategori: "+p.cat+"\n\nMau beli? Ketik: beli "+p.id+" 1"};
+
+/* ===== SAPAAN ===== */
+if(hasAny("hai","halo","hay ","hello","hi ","assalamu","selamat pagi","selamat siang","selamat sore","selamat malam","pagi","siang","sore","malam")&&msg.length<14){
+var h=new Date().getHours(),w=h<11?"pagi":h<15?"siang":h<19?"sore":"malam";
+return "Halo! Selamat "+w+" \uD83D\uDE0A Selamat datang di Toko Tanaman & Pupuk.\nKamu bisa tanya apa aja, misalnya:\n\uD83C\uDF3F catalog - lihat semua produk\n\uD83D\uDCA1 rekomendasi - minta saran\n\uD83D\uDCB0 stok <nama> - cek harga & stok\n\uD83D\uDED2 beli <nama> <jumlah> - pesan\n\uD83C\uDFC1 checkout - selesaikan pembelian\n\nTanya aja ya, aku bantu!";
+}
+
+/* ===== TERIMA KASIH ===== */
+if(hasAny("makasih","terima kasih","thanks","thank you","trims","thx")){
+return "Sama-sama! \uD83D\uDE0A Senang bisa bantu. Kalau butuh apa-apa lagi, tinggal ketik aja ya. \uD83C\uDF3F";
+}
+
+/* ===== PAMITAN ===== */
+if(hasAny("bye","dadah","sampai jumpa","sampai ketemu","selamat tinggal")){
+return "Dadah! \uD83D\uDC4B Terima kasih sudah mampir. Semoga harimu menyenangkan! Mau balik tinggal ketik 'hai' ya \u2728";
+}
+
+/* ===== CEK STATUS PESANAN ===== */
+if(hasAny("status pesanan","cek pesanan","pesanan saya","dimana pesanan","sampai mana","sudah sampai","cek order","status order","cek pengiriman","pesananku")){
+if(this.orders.length===0)return "Saat ini belum ada pesanan yang tercatat \uD83D\uDE15. Kamu bisa mulai belanja dulu dengan ketik catalog ya!";
+var o=this.orders[this.orders.length-1],it=o.items.map(function(i){return i.name+" x"+i.qty}).join(", ");
+return "Pesanan terakhirmu:\n\uD83D\uDCC4 ID: "+o.id+"\n\uD83D\uDECD "+it+"\n\uD83D\uDCB5 Total: Rp "+o.total.toLocaleString()+"\n\uD83D\uDCCC Status: "+o.status+"\n\nTim kami akan hubungi untuk konfirmasi pengiriman ya!";
+}
+
+/* ===== CARA ORDER ===== */
+if(hasAny("cara order","cara beli","gimana caranya","gimana cara","langkah","tutorial","cara pesan","caranya","cara maksudnya","gimana cara order")){
+return "Gampang banget! \uD83D\uDE0A Langkah beli:\n\u2460 Pilih produk: ketik 'catalog'\n\u2461 Mau beli: ketik 'beli <nama> <jumlah>' contoh 'beli monstera 2'\n\u2462 Cek keranjang: ketik 'keranjang'\n\u2463 Selesai: ketik 'checkout'\n\u2464 Pilih pembayaran (QRIS/transfer/e-wallet)\n\nKalau bingung, ketik aja produk yang kamu mau, aku bantu! \u2728";
+}
+
+/* ===== CARA BAYAR ===== */
+if(hasAny("cara bayar","pembayaran","bayar apa","bayar pakai","bayarnya","transfer","qris","metode bayar","bayar gimana","gimana bayar","bayar pake","bca","bri","bni","mandiri","ovo","gopay","dana")){
+return "Metode pembayaran kami:\n\uD83D\uDCF1 QRIS - semua aplikasi e-wallet\n\uD83C\uDFE6 Transfer Bank: BCA, BRI, BNI, Mandiri\n\uD83D\uDCF1 E-wallet: OVO, GoPay, DANA\n\nCaranya: checkout dulu, pilih metode di tab Pembayaran, lalu transfer & kirim bukti ya!";
+}
+
+/* ===== ONGKIR / PENGIRIMAN ===== */
+if(hasAny("ongkir","pengiriman","berapa lama","kurir","ekspedisi","jnt","jne","sicepat","gosend","packing","dikirim","sampai berapa","lama sampai")){
+return "Info pengiriman:\n\uD83D\uDE9A JNE, J&T, SiCepat, GoSend\n\uD83D\uDD53 Estimasi 1-3 hari (Jabodetabek), 2-5 hari (luar kota)\n\uD83D\uDCB0 Ongkir dihitung saat konfirmasi, kami infokan\n\uD83D\uDCE6 Tanaman di-packing aman biar gak rusak.\n\nKetik 'promo' buat lihat gratis ongkir!";
+}
+
+/* ===== LOKASI / JAM BUKA ===== */
+if(hasAny("dimana","alamat","lokasi","jam buka","jam tutup","buka jam","operasional","dimana toko","buka pukul","dimana tempatnya")){
+return "\uD83D\uDCCD Toko Tanaman & Pupuk\n\u251C Alamat: Jl. Kebun Raya No. 88, Jakarta Selatan\n\u251C Jam buka: Senin-Minggu, 08.00-20.00 WIB\n\u2514 \uD83D\uDCDE WA: 0812-3456-7890\n\nOrder online bisa 24 jam lewat bot ini \uD83D\uDE0A";
+}
+
+/* ===== DISKON / PROMO ===== */
+if(hasAny("diskon","promo","harga khusus","hemat","cashback","voucher","potongan","gratis ongkir","ada promo","diskonnya","murah")){
+return "Promo aktif sekarang! \uD83C\uDF89\n\uD83C\uDF3F Min. belanja Rp 150,000 \u2192 gratis ongkir\n\uD83C\uDF81 Beli 3 pupuk organik \u2192 gratis 1 kapur dolomit\n\uD83D\uDCB0 Diskon 5% untuk pembayaran QRIS\n\nKetik 'rekomendasi' buat mulai belanja!";
+}
+
+/* ===== REKOMENDASI ===== */
+if(hasAny("rekomendasi","sarankan","saran","recommend","rekomend","bantu pilih","pilihkan","yang bagus","saranin","suggestion","saya gak tau mau beli")){
+var intent=msg.replace(/rekomendasi|sarankan|saran|recommend|rekomend|bantu|pilihkan|bagus|yang|saranin|gini|saya|gak|tau|mau|beli/g,"").trim();
+var recs=self.getRec(intent||"hias");
+if(!recs.length)return "Hmm, belum nemu produk yang pas \uD83E\uDD14. Coba ketik 'rekomendasi hias', 'rekomendasi pupuk', atau 'rekomendasi murah' ya!";
+var l=["Rekomendasi buat kamu \uD83D\uDCA1:"];recs.forEach(function(p){l.push("\u2022 "+p.name+" - Rp "+p.price.toLocaleString()+" (stok "+p.stock+")")});l.push("");l.push("Coba ketik: beli "+recs[0].id+" 1");return l.join("\n");
+}
+
+/* ===== CATALOG ===== */
+if(hasAny("catalog","katalog","produk","daftar produk","menu","list produk","apa aja","ada apa","jual apa","jualan apa","barang apa")){
+var l=["\uD83D\uDCE6 Katalog lengkap:\n"];Object.keys(products).forEach(function(cat){l.push("\uD83D\uDCCD "+cat.toUpperCase());products[cat].forEach(function(p){var s=p.stock>10?"\u2705":p.stock>0?"\u26A0\uFE0F":"\u274C";l.push("  "+s+" "+p.name+" - Rp "+p.price.toLocaleString()+" (stok: "+p.stock+")")});l.push("")});l.push("Cek biar cepat:\n\u2022 rekomendasi hias\n\u2022 rekomendasi pupuk\n\u2022 rekomendasi murah");return l.join("\n");
+}
+
+/* ===== TOTAL ===== */
+if(hasAny("total berapa","totalnya","berapa total","total belanja","hitung total","subtotal","totalnya berapa","total semua")){
+if(this.cart.length===0)return "Keranjang masih kosong, belum ada total. Ketik 'catalog' dulu ya!";
+return "Total belanjaanmu: Rp "+this.getCartTotal().toLocaleString()+"\n\u2022 "+this.cart.reduce(function(s,i){return s+i.qty},0)+" item\n\nLanjut bayar? Ketik 'checkout' \uD83C\uDFC1";
+}
+
+/* ===== STOK / HARGA ===== */
+if(hasAny("stok","stock","habis","masih ada","tersedia","berapa")){
+var q=msg.replace(/stok|stock|habis|masih ada|tersedia|harga|berapa/g,"").trim();
+if(!q)return "\u2753 Format: stok <nama produk>\nContoh: stok sirih gading";
+var p=self.findProduct(q);if(!p)return "\u26A0 Produk '"+q+"' gak nemu. Cek 'catalog' dulu yaa";
+var s=p.stock>10?"\u2705 Tersedia banyak":p.stock>0?"\u26A0 Stok tinggal "+p.stock+"!":"\u274C Sedang habis";
+return p.name+"\nStok: "+p.stock+"\nStatus: "+s+"\nHarga: Rp "+p.price.toLocaleString()+"\n\nMau pesan? Ketik: beli "+p.id+" 1";
+}
+
+/* ===== BELI / ORDER (dengan dukungan kode produk T001/P001) ===== */
+if(hasAny("beli","order","pesan","mau beli","pingin beli","pengen beli","saya mau","mau pesan","ambil","saya pengen","aku mau","mau order")){
+var trailer=msg.match(/(\d+)\s*$/);var qty=trailer?parseInt(trailer[1])||1:1;
+var idm=msg.match(/[tp]\s?(\d{3})/);
+var nameOnly=msg.replace(/beli|order|pesan|mau|pingin|pengen|saya|aku|ambil|tolong|dong|pasang|satu|dua|tiga|empat|lima|[0-9]/g,"").trim();
+var target;
+if(idm){target=self.findProduct(idm[0].charAt(0).toUpperCase()+idm[1]);}
+else{target=self.findProduct(nameOnly);}
+if(!target){
+var toks=nameOnly.split(" ");
+for(var ti=0;ti<toks.length;ti++){if(toks[ti].length>1){var pp=self.findProduct(toks[ti]);if(pp){target=pp;break}}}
+}
+if(!target)return "\u26A0 Produk gak ketemu. Ketik 'catalog' buat lihat daftar, atau sebutkan nama tanamannya (misal 'beli monstera 2') ya!";
+if(target.stock<qty)return "\u26A0 Stok "+target.name+" cuma "+target.stock+" buah. Kurangi jumlahnya ya!";
+return self.addToCart(target.id,qty).msg;
+}
+
+/* ===== KERANJANG ===== */
+if(hasAny("keranjang","cart","isi keranjang","lihat keranjang","belanjaan saya","punya saya","dipilih")){
+if(this.cart.length===0)return "Keranjang masih kosong \uD83D\uDE15. Ketik 'catalog' atau 'beli <nama> <jumlah>' yaa!";
+var l=["\uD83D\uDED2 Isi keranjangmu:"];this.cart.forEach(function(i){l.push("  \u2022 "+i.name+" x"+i.qty+" = Rp "+(i.price*i.qty).toLocaleString())});l.push("  TOTAL: Rp "+this.getCartTotal().toLocaleString());l.push("");l.push("Mau lanjut bayar? Ketik 'checkout'");return l.join("\n");
+}
+
+/* ===== CHECKOUT ===== */
+if(hasAny("checkout","check out","selesaikan","selesai belanja","bayar sekarang","jadi beli","lanjut bayar","bayar","pesan sekarang","jadi pesan")){
+if(this.cart.length===0)return "Keranjang masih kosong \uD83D\uDE15. Tambah produk dulu pakai 'beli <nama> <jumlah>' yaa!";
+var r=self.checkout();if(r.success)return r.msg+"\n\nSelamat berbelanja! \uD83C\uDF89 Tim kami hubungi kamu untuk konfirmasi ya.";
+return r.msg;
+}
+
+/* ===== BANTUAN / KONTAK ===== */
+if(hasAny("bantuan","help","kontak","cs","admin","whatsapp","telepon","hubungi","bisa bantu","tolong bantu","ada orang","manusia")){
+return "Halo, aku bot Toko Tanaman & Pupuk \uD83D\uDE0A. Yang bisa kamu lakukan:\n\uD83C\uDF3F catalog - semua produk\n\uD83D\uDCA1 rekomendasi - saran produk\n\uD83D\uDCB0 stok <nama> - cek harga\n\uD83D\uDED2 beli <nama> <jumlah> - pesan\n\uD83C\uDFC1 checkout - bayar\n\uD83D\uDCDE kalau butuh manusia: 0812-3456-7890 (WA)\n\nAda yang bisa dibantu?";
+}
+
+/* ===== CARI PRODUK BERDASARKAN KATA (misal "harga anggrek", "malem monstera") ===== */
+var toks=msg.split(" ");
+for(var ti=0;ti<toks.length;ti++){if(toks[ti].length>1){var pp=self.findProduct(toks[ti]);if(pp)return infoOf(pp)}}
+
+/* ===== TANYA PRODUK YANG GAK DIJUAL ===== */
+if(hasAny("jual","ada gak","ada ga","apakah","punya","kalo","kalau","tersedia gak","beli dong")){
+return "Maaf ya, sepertinya kami tidak menjual barang itu \uD83D\uDE15. Kami jualan:\n\uD83C\uDF3F Tanaman hias & bonsai\n\uD83E\uDDA9 Pupuk organik & kimia\n\uD83E\uDDFA Alat tanam\n\nKetik 'catalog' buat lihat lengkapnya, atau 'rekomendasi' biar aku pilihkan! \u2728";
+}
+
+/* ===== FALLBACK NATURAL ===== */
+return "Hmm, aku agak kurang paham maksudnya \uD83E\uDD14. Bisa perjelas? Coba salah satu:\n\u2022 'catalog' - lihat semua produk\n\u2022 'rekomendasi hias/pupuk/murah' - minta saran\n\u2022 'beli monstera 2' - pesan barang\n\u2022 'cara bayar' / 'ongkir' / 'alamat'\n\nKetik bebas tanya apa aja, aku bantu jawab! \u2728";
+};var bot=new SalesBot();
 function toggleChat(){var w=document.getElementById("chatWindow"),t=document.getElementById("chatToggle");var isOpen=w.classList.contains("open");if(isOpen){w.classList.remove("open");t.innerHTML="&#x1F4AC;"}else{w.classList.add("open");t.textContent="X"}}
 function sendChat(){var i=document.getElementById("chatInput"),m=i.value.trim();if(!m)return;i.value="";addMsg(m,"user");setTimeout(function(){addMsg(bot.processMessage(m),"bot")},400)}
 function sendQuick(t){addMsg(t,"user");setTimeout(function(){addMsg(bot.processMessage(t),"bot")},400)}
@@ -91,4 +209,4 @@ document.addEventListener("DOMContentLoaded",function(){setTimeout(function(){ad
 </div>
 </body>
 </html>
-// Force update MOBILEFIX
+// Force update NLPBOT
