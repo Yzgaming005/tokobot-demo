@@ -1,0 +1,257 @@
+{
+  "products": {
+    "tanaman": [
+      {
+        "id": "T001",
+        "name": "Sirih Gading",
+        "price": 35000,
+        "stock": 25,
+        "cat": "Tanaman Hias",
+        "desc": "Tanaman gantung, mudah perawatan"
+      },
+      {
+        "id": "T002",
+        "name": "Sansevieria",
+        "price": 45000,
+        "stock": 15,
+        "cat": "Tanaman Hias",
+        "desc": "Tanaman keras, cocok pemula"
+      },
+      {
+        "id": "T003",
+        "name": "Anggrek Bulan",
+        "price": 75000,
+        "stock": 10,
+        "cat": "Tanaman Hias",
+        "desc": "Bunga harum, bulan Mei-Okt"
+      },
+      {
+        "id": "T004",
+        "name": "Kaktus Mini Set",
+        "price": 25000,
+        "stock": 40,
+        "cat": "Sukulen",
+        "desc": "Set 5 kaktus variasi"
+      },
+      {
+        "id": "T005",
+        "name": "Monstera Deliciosa",
+        "price": 120000,
+        "stock": 6,
+        "cat": "Tanaman Hias",
+        "desc": "Iconic fenestra leaf"
+      },
+      {
+        "id": "T006",
+        "name": "Pacar Air",
+        "price": 15000,
+        "stock": 50,
+        "cat": "Tanaman Air",
+        "desc": "Tanaman air rendah"
+      },
+      {
+        "id": "T007",
+        "name": "Bonsai Jepang",
+        "price": 250000,
+        "stock": 3,
+        "cat": "Bonsai",
+        "desc": "Bonsai premium, terlatih"
+      },
+      {
+        "id": "T008",
+        "name": "Palm King",
+        "price": 95000,
+        "stock": 12,
+        "cat": "Tanaman Hias",
+        "desc": "Palm besar, ruang luas"
+      }
+    ],
+    "pupuk": [
+      {
+        "id": "P001",
+        "name": "Pupuk NPK Solubag 16-16-16",
+        "price": 45000,
+        "stock": 30,
+        "cat": "Pupuk Kimia",
+        "desc": "500g, larut sempurna"
+      },
+      {
+        "id": "P002",
+        "name": "Pupuk Organik Cair",
+        "price": 55000,
+        "stock": 20,
+        "cat": "Pupuk Organik",
+        "desc": "1L, kotoran sapi + EM"
+      },
+      {
+        "id": "P003",
+        "name": "Zat Percik Bollgard",
+        "price": 35000,
+        "stock": 15,
+        "cat": "Pestisida",
+        "desc": "Anti ulat, kutu daun"
+      },
+      {
+        "id": "P004",
+        "name": "Rhizobium Biofertilizer",
+        "price": 65000,
+        "stock": 25,
+        "cat": "Pupuk Hayati",
+        "desc": "Fixator nitrogen"
+      },
+      {
+        "id": "P005",
+        "name": "Vitamix Pektan",
+        "price": 40000,
+        "stock": 17,
+        "cat": "Pupuk Hayati",
+        "desc": "Vitamin tanaman"
+      },
+      {
+        "id": "P006",
+        "name": "Kapur Dolomit",
+        "price": 25000,
+        "stock": 40,
+        "cat": "Pupuk Mineral",
+        "desc": "5kg, naikkan pH tanah"
+      },
+      {
+        "id": "P007",
+        "name": "Vermicompost",
+        "price": 45000,
+        "stock": 22,
+        "cat": "Pupuk Organik",
+        "desc": "Cacing tanah premium"
+      },
+      {
+        "id": "P008",
+        "name": "Pupuk Kandang Sapi",
+        "price": 20000,
+        "stock": 50,
+        "cat": "Pupuk Organik",
+        "desc": "10kg, sudah di-pasteurize"
+      }
+    ],
+    "tools": [
+      {
+        "id": "TL001",
+        "name": "Pot Plastik 20cm",
+        "price": 15000,
+        "stock": 60,
+        "cat": "Alat Tanam",
+        "desc": "Set 5 pot"
+      },
+      {
+        "id": "TL002",
+        "name": "Sekop Mini",
+        "price": 30000,
+        "stock": 20,
+        "cat": "Alat Tanam",
+        "desc": "Portable garden tool"
+      },
+      {
+        "id": "TL003",
+        "name": "Spray Meter pH",
+        "price": 85000,
+        "stock": 8,
+        "cat": "Alat Ukur",
+        "desc": "pH meter digital"
+      },
+      {
+        "id": "TL004",
+        "name": "Keranjang Tanaman",
+        "price": 40000,
+        "stock": 15,
+        "cat": "Alat Tanam",
+        "desc": "Pot gantung anyaman"
+      },
+      {
+        "id": "TL005",
+        "name": "Mister Spray",
+        "price": 12000,
+        "stock": 35,
+        "cat": "Alat Tanam",
+        "desc": "Semprot manual"
+      }
+    ]
+  },
+  "recommendations": {
+    "hias": [
+      "T001",
+      "T002",
+      "T005",
+      "T008"
+    ],
+    "mudah": [
+      "T002",
+      "T004",
+      "T006"
+    ],
+    "bunga": [
+      "T003",
+      "T007"
+    ],
+    "air": [
+      "T006"
+    ],
+    "indoor": [
+      "T001",
+      "T005"
+    ],
+    "outdoor": [
+      "T008",
+      "T002"
+    ],
+    "pemula": [
+      "T002",
+      "T004",
+      "T006"
+    ],
+    "premium": [
+      "T007",
+      "T005"
+    ],
+    "murah": [
+      "T006",
+      "T004",
+      "T001"
+    ],
+    "hemat": [
+      "T004",
+      "T006",
+      "T008"
+    ]
+  },
+  "pupuk_recommendations": {
+    "hias": [
+      "P001",
+      "P002",
+      "P004"
+    ],
+    "sayur": [
+      "P001",
+      "P007",
+      "P008"
+    ],
+    "buah": [
+      "P001",
+      "P004",
+      "P005"
+    ],
+    "penyubur": [
+      "P002",
+      "P007",
+      "P008"
+    ],
+    "anti_hama": [
+      "P003"
+    ],
+    "pH": [
+      "P006"
+    ],
+    "bio": [
+      "P004",
+      "P005"
+    ]
+  }
+}

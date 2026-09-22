@@ -1,0 +1,2 @@
+order_id,customer,product_id,product_name,quantity,unit_price,total,status,timestamp
+ORD-20260922131519,Budi,T004,Kaktus Mini Set,3,25000,75000,pending,2026-09-22T13:15:19.350103

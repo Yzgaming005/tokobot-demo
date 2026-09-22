@@ -1,0 +1,22 @@
+id,name,price,stock,category,desc
+T001,Sirih Gading,35000,25,Tanaman Hias,"Tanaman gantung, mudah perawatan"
+T002,Suplier Sansevieria,45000,15,Tanaman Hias,"Tanaman keras, cocok pemula"
+T003,Anggrek Bulan,75000,10,Tanaman Hias,"Bunga harum, bulan Mei-Okt"
+T004,Kaktus Mini Set,25000,40,Sukulen,Set 5 kaktus variasi
+T005,Monstera Deliciosa,120000,8,Tanaman Hias,Iconic fenestra leaf
+T006,Pacar Air,15000,50,Tanaman Air,Tanaman air rendah
+T007,Bonsai Jepang,250000,3,Bonsai,"Bonsai premium, terlatih"
+T008,Palm King,95000,12,Tanaman Hias,"Palm besar, ruang luas"
+P001,Pupuk NPK Solubag 16-16-16,45000,30,Pupuk Kimia,"500g, larut sempurna"
+P002,Pupuk Organik Cair,55000,20,Pupuk Organik,"1L, kotoran sapi + EM"
+P003,Zat Percik Bollgard,35000,15,Pestisida,"Anti ulat, kutu daun"
+P004,Rhizobium Biofertilizer,65000,25,Pupuk Hayati,Fixator nitrogen
+P005,Vitamix Pektan,40000,18,Pupuk Hayati,Vitamin tanaman
+P006,Kapur Dolomit,25000,40,Pupuk Mineral,"5kg, naikkan pH tanah"
+P007,Vermicompost,45000,22,Pupuk Organik,Cacing tanah premium
+P008,Pupuk Kandang Sapi,20000,50,Pupuk Organik,"10kg, sudah di-pasteurize"
+TL001,Pot Plastik 20cm,15000,60,Alat Tanam,Set 5 pot
+TL002,Sekop Mini,30000,20,Alat Tanam,Portable garden tool
+TL003,Spray Meter pH,85000,8,Alat Ukur,pH meter digital
+TL004,Keranjang Tanaman,40000,15,Alat Tanam,Pot gantung anyaman
+TL005,Mister Spray,12000,35,Alat Tanam,Semprot manual
