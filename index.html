@@ -72,7 +72,6 @@ function sendQuick(t){addMsg(t,"user");setTimeout(function(){addMsg(bot.processM
 function handleKey(e){if(e.key==="Enter")sendChat()}
 function addMsg(text,sender){var box=document.getElementById("chatMessages"),d=document.createElement("div");d.className="cmsgd "+sender;d.textContent=text;box.appendChild(d);box.scrollTop=box.scrollHeight}
 document.addEventListener("DOMContentLoaded",function(){setTimeout(function(){addMsg("[Hi] Halo! Selamat datang di Toko Tanaman & Pupuk. Ketik catalog untuk lihat produk.","bot")},600);app.init()})
-app.init();
 </script>
 <button class="cbot" onclick="toggleChat()" id="chatToggle">S</button>
 <div class="cwin" id="chatWindow">
