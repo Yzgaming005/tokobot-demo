@@ -67,14 +67,14 @@ if(msg.indexOf("rekomendasi")!==-1||msg.indexOf("sarankan")!==-1){var intent=msg
 if(msg.indexOf("stok")!==-1){var q=msg.replace("stok","").trim();if(!q)return"[?] Ketik: stok <nama produk>\nContoh: stok sirih gading";var p=this.findProduct(q);if(!p)return"[!] Produk \""+q+"\" tidak ditemukan";var s=p.stock>10?"[+] Tersedia":p.stock>0?"[!] Stok Tipis":"[-] Habis";return"[ "+p.name+" ]\n  Stok: "+p.stock+"\n  Status: "+s+"\n  Harga: Rp "+p.price.toLocaleString()};if(msg.indexOf("beli")!==-1||msg.indexOf("order")!==-1){var parts=msg.replace(/beli|order/g,"").trim().split(/\s+/);if(!parts.length||!parts[0])return"[?] Ketik: beli <nama> <jumlah>\nContoh: beli sirih gading 2";var qty=parseInt(parts[parts.length-1])||1;var pname=parts.slice(0,-1).join(" ").trim()||parts[0];var p=this.findProduct(pname);if(!p)return"[!] Produk \""+pname+"\" tidak ditemukan\nKetik catalog untuk lihat produk";if(p.stock<qty)return"[!] Stok "+p.name+" tidak cukup. Tersedia: "+p.stock;return this.addToCart(p.id,qty).msg};if(msg.indexOf("keranjang")!==-1||msg.indexOf("cart")!==-1)return this.getCartSummary();if(msg.indexOf("total")!==-1||msg.indexOf("berapa")!==-1){var t=this.getCartTotal();if(t===0)return"[!] Keranjang kosong. Ketik beli <produk> <jumlah>";return"[ TOTAL: Rp "+t.toLocaleString()+" ]"};if(msg.indexOf("checkout")!==-1||msg.indexOf("bayar")!==-1||msg.indexOf("selesai")!==-1)return this.checkout().msg;if(msg.indexOf("help")!==-1||msg.indexOf("bantuan")!==-1)return"[ PERINTAH BOT ]\n[*] catalog - lihat produk\n[!] rekomendasi - saran\n[=] stok <nama> - cek stok\n[+] beli <nama> <jumlah> - order\n[@] keranjang - lihat keranjang\n[#] total - hitung total\n[$] checkout - selesai\n[?] help - bantuan";return"[??] Maaf, saya tidak mengerti \""+msg+"\". Ketik help untuk perintah.";
 };
 var bot=new SalesBot();
-function toggleChat(){var w=document.getElementById("chatWindow"),t=document.getElementById("chatToggle");w.classList.toggle("open");t.textContent=w.classList.contains("open")?"X":"S"}
+function toggleChat(){var w=document.getElementById("chatWindow"),t=document.getElementById("chatToggle");var isOpen=w.classList.contains("open");if(isOpen){w.classList.remove("open");t.innerHTML="&#x1F4AC;"}else{w.classList.add("open");t.textContent="X"}}
 function sendChat(){var i=document.getElementById("chatInput"),m=i.value.trim();if(!m)return;i.value="";addMsg(m,"user");setTimeout(function(){addMsg(bot.processMessage(m),"bot")},400)}
 function sendQuick(t){addMsg(t,"user");setTimeout(function(){addMsg(bot.processMessage(t),"bot")},400)}
 function handleKey(e){if(e.key==="Enter")sendChat()}
 function addMsg(text,sender){var box=document.getElementById("chatMessages"),d=document.createElement("div");d.className="cmsgd "+sender;d.textContent=text;box.appendChild(d);box.scrollTop=box.scrollHeight}
-document.addEventListener("DOMContentLoaded",function(){setTimeout(function(){addMsg("[Hi] Halo! Selamat datang di Toko Tanaman & Pupuk. Ketik catalog untuk lihat produk.","bot")},600);app.init()})
+document.addEventListener("DOMContentLoaded",function(){setTimeout(function(){addMsg("[Hi] Halo! Selamat datang di Toko Tanaman & Pupuk. Ketik catalog, rekomendasi, atau beli <produk> <jumlah>.","bot")},600);app.init();setTimeout(function(){var w=document.getElementById("chatWindow");if(w&&!w.classList.contains("open")){w.classList.add("open");var t=document.getElementById("chatToggle");if(t)t.textContent="X"}},1200)})
 </script>
-<button class="cbot" onclick="toggleChat()" id="chatToggle">S</button>
+<button class="cbot" onclick="toggleChat()" id="chatToggle">&#x1F4AC;</button>
 <div class="cwin" id="chatWindow">
   <div class="che"><h3>Bot Toko Tanaman</h3><button class="cclose" onclick="toggleChat()">X</button></div>
   <div class="cmsg" id="chatMessages"></div>
@@ -91,4 +91,4 @@ document.addEventListener("DOMContentLoaded",function(){setTimeout(function(){ad
 </div>
 </body>
 </html>
-// Force update 1790100000
+// Force update AUTOVER
