@@ -217,6 +217,22 @@ table{font-size:.82rem}
 th,td{padding:11px 12px}
 .sec{padding-bottom:90px}
 }
+
+.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);z-index:999;align-items:center;justify-content:center}
+.modal.show{display:flex}
+.modal-content{background:var(--card);border-radius:24px;padding:32px;width:90%;max-width:400px;position:relative}
+.modal-content .close{position:absolute;top:16px;right:20px;font-size:1.5rem;cursor:pointer}
+.modal-content h2{margin-bottom:20px;font-family:var(--display)}
+.modal-content .tabs{display:flex;gap:8px;margin-bottom:20px}
+.modal-content .tab{flex:1;padding:10px;border:none;background:var(--bg);border-radius:12px;cursor:pointer;font-weight:600}
+.modal-content .tab.active{background:var(--brand);color:#fff}
+.modal-content .form{display:flex;flex-direction:column;gap:12px}
+.modal-content input{padding:12px 16px;border:1.5px solid var(--line-d);border-radius:12px;font-size:1rem;font-family:var(--sans)}
+.modal-content input:focus{border-color:var(--brand);outline:none}
+.login-btn{background:var(--ink);color:#fff;padding:9px 18px;border-radius:999px;font-size:.86rem;font-weight:700;cursor:pointer;border:none;display:flex;align-items:center;gap:6px}
+.login-btn:hover{background:var(--brand)}
+.user-info{font-weight:600;color:var(--fg);font-size:.9rem}
+
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,600&family=Raleway:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
@@ -470,6 +486,228 @@ function sendQuick(t){addMsg(t,"user");setTimeout(function(){addMsg(bot.processM
 function handleKey(e){if(e.key==="Enter")sendChat()}
 function addMsg(text,sender){var box=document.getElementById("chatMessages"),d=document.createElement("div");d.className="cmsgd "+sender;d.textContent=text;box.appendChild(d);box.scrollTop=box.scrollHeight}
 document.addEventListener("DOMContentLoaded",function(){setTimeout(function(){addMsg("[Hi] Halo! Selamat datang di Toko Tanaman & Pupuk. Ketik catalog, rekomendasi, atau beli <produk> <jumlah>.","bot")},600);app.init();setTimeout(function(){if(window.innerWidth>768){var w=document.getElementById("chatWindow");if(w&&!w.classList.contains("open")){w.classList.add("open");var t=document.getElementById("chatToggle");if(t)t.textContent="X"}}},1200)})
+// ===== API CONFIG =====
+const API = 'http://localhost:3000';
+// const API = 'https://your-backend.trycloudflare.com'; // production
+
+let authToken = localStorage.getItem('tokobot_token') || null;
+let currentUser = JSON.parse(localStorage.getItem('tokobot_user') || 'null');
+
+// ===== API HELPER =====
+async function api(path, opts = {}) {
+  const headers = { 'Content-Type': 'application/json' };
+  if (authToken) headers['Authorization'] = 'Bearer ' + authToken;
+  const r = await fetch(API + path, { ...opts, headers, credentials: 'include' });
+  return r.json();
+}
+
+// ===== AUTH UI =====
+function updateAuthUI() {
+  const loginBtn = document.getElementById('loginBtn');
+  const logoutBtn = document.getElementById('logoutBtn');
+  const userInfo = document.getElementById('userInfo');
+  if (authToken && currentUser) {
+    if (loginBtn) loginBtn.style.display = 'none';
+    if (logoutBtn) logoutBtn.style.display = 'flex';
+    if (userInfo) { userInfo.style.display = 'flex'; userInfo.textContent = 'Hi, ' + currentUser.username; }
+  } else {
+    if (loginBtn) loginBtn.style.display = 'flex';
+    if (logoutBtn) logoutBtn.style.display = 'none';
+    if (userInfo) userInfo.style.display = 'none';
+  }
+}
+
+function openLogin() {
+  document.getElementById('loginModal').classList.add('show');
+}
+
+function closeLogin() {
+  document.getElementById('loginModal').classList.remove('show');
+}
+
+async function doLogin() {
+  const u = document.getElementById('loginUsername').value;
+  const p = document.getElementById('loginPassword').value;
+  const r = await api('/api/auth/login', { method: 'POST', body: JSON.stringify({ username: u, password: p }) });
+  if (r.token) {
+    authToken = r.token;
+    currentUser = { id: r.userId, username: u, role: r.role };
+    localStorage.setItem('tokobot_token', r.token);
+    localStorage.setItem('tokobot_user', JSON.stringify(currentUser));
+    closeLogin();
+    updateAuthUI();
+    app.toast('Login berhasil!', 'success');
+    loadProducts();
+  } else {
+    app.toast(r.error || 'Login gagal', 'error');
+  }
+}
+
+async function doRegister() {
+  const u = document.getElementById('regUsername').value;
+  const p = document.getElementById('regPassword').value;
+  const e = document.getElementById('regEmail').value;
+  const r = await api('/api/auth/register', { method: 'POST', body: JSON.stringify({ username: u, password: p, email: e }) });
+  if (r.token) {
+    authToken = r.token;
+    currentUser = { id: r.userId, username: u, role: 'user' };
+    localStorage.setItem('tokobot_token', r.token);
+    localStorage.setItem('tokobot_user', JSON.stringify(currentUser));
+    closeLogin();
+    updateAuthUI();
+    app.toast('Registrasi berhasil!', 'success');
+  } else {
+    app.toast(r.error || 'Registrasi gagal', 'error');
+  }
+}
+
+function doLogout() {
+  authToken = null;
+  currentUser = null;
+  localStorage.removeItem('tokobot_token');
+  localStorage.removeItem('tokobot_user');
+  updateAuthUI();
+  app.toast('Logged out', 'info');
+}
+
+// ===== PRODUCTS (from API) =====
+async function loadProducts() {
+  const search = document.getElementById('searchInput').value || '';
+  const data = await api('/api/products?search=' + encodeURIComponent(search));
+  app.products = data;
+  app.renderCatalog();
+}
+
+// Override renderCatalog to use API data
+app.renderCatalog = function() {
+  const grid = document.getElementById('productGrid');
+  const all = this.products || [];
+  if (this.searchQuery) {
+    all = all.filter(p =>
+      p.name.toLowerCase().indexOf(this.searchQuery) !== -1 ||
+      p.id.toLowerCase().indexOf(this.searchQuery) !== -1 ||
+      p.category.toLowerCase().indexOf(this.searchQuery) !== -1
+    );
+  }
+  if (all.length === 0) {
+    grid.innerHTML = '<div class="empty-state"><div class="ic">🔍</div><p>Produk tidak ditemukan</p></div>';
+    document.getElementById('totalProducts').textContent = '0';
+    return;
+  }
+  grid.innerHTML = all.map(p => {
+    const sc = p.stock > 10 ? 'stock-ok' : p.stock > 0 ? 'stock-low' : 'stock-out';
+    const st = p.stock > 10 ? 'Stok tersedia' : p.stock > 0 ? 'Sisa ' + p.stock : 'Habis';
+    const disabled = p.stock === 0 ? 'disabled style="opacity:.5;cursor:not-allowed;"' : '';
+    const btnText = p.stock === 0 ? 'Habis' : '+ Keranjang';
+    const icons = {'Tanaman Hias':'🌿','Sukulen':'🌵','Bonsai':'🌳','Tanaman Air':'🪷','Pupuk Kimia':'🧪','Pupuk Organik':'🥫','Pestisida':'🐛','Pupuk Hayati':'🦠','Pupuk Mineral':'⛏️','Alat Tanam':'🧰'};
+    const ic = icons[p.category] || '🌿';
+    const tag = p.stock > 0 && p.id.charCodeAt(0) % 3 === 0 ? '<span class="tag">🔥 Terlaris</span>' : '';
+    return `<div class="product-card">
+      <div class="pimg"><span class="ico">${ic}</span>${tag}</div>
+      <div class="pcat">${p.category}</div>
+      <div class="pnm">${p.name}</div>
+      <div class="pds">${p.description}</div>
+      <div class="prate">⭐ 4.${5 + (p.id.charCodeAt(0) % 5)} <small>(${18 + (p.id.charCodeAt(0) * 7) % 380} terjual)</small></div>
+      <div class="pf"><div class="pp">Rp ${p.price.toLocaleString()}</div><span class="ps ${sc}">${st}</span></div>
+      <button class="btn btn-sm" onclick="app.addToCart('${p.id}')" ${disabled}>${btnText}</button>
+    </div>`;
+  }).join('');
+  document.getElementById('totalProducts').textContent = all.length;
+};
+
+// Override search to use API
+app.search = function() {
+  this.searchQuery = document.getElementById('searchInput').value.toLowerCase();
+  loadProducts();
+};
+
+// ===== CHECKOUT WITH BACKEND =====
+app.checkout = async function() {
+  if (!authToken) {
+    openLogin();
+    return;
+  }
+  if (this.cart.length === 0) {
+    this.toast('Keranjang kosong', 'error');
+    return;
+  }
+  const total = this.cart.reduce((s, i) => s + i.price * i.qty, 0);
+  const items = this.cart.map(i => ({ id: i.id, name: i.name, price: i.price, qty: i.qty }));
+  const paymentMethod = this.selectedPayment || 'qris';
+  const r = await api('/api/orders', { method: 'POST', body: JSON.stringify({ items, paymentMethod }) });
+  if (r.orderId) {
+    this.toast('Pesanan ' + r.orderId + ' berhasil! Total: Rp ' + r.total.toLocaleString(), 'success');
+    this.cart = [];
+    this.updateCart();
+    this.toggleCart();
+    this.switchTab('orders');
+  } else {
+    this.toast(r.error || 'Order gagal', 'error');
+  }
+};
+
+// ===== LOAD ORDERS FROM BACKEND =====
+app.loadOrders = async function() {
+  if (!authToken) { this.orders = []; return; }
+  this.orders = await api('/api/orders');
+};
+
+// Override renderOrders to use API data  
+app.renderOrders = function() {
+  const c = document.getElementById('ordersContent');
+  if (!authToken) {
+    c.innerHTML = '<div class="empty-state"><div class="ic">🔒</div><p>Login untuk lihat pesanan</p><button class="btn" style="margin-top:16px" onclick="openLogin()">Login</button></div>';
+    return;
+  }
+  if (this.orders.length === 0) {
+    c.innerHTML = '<div class="empty-state"><div class="ic">📦</div><p>Belum ada pesanan</p></div>';
+    return;
+  }
+  c.innerHTML = this.orders.slice().reverse().map(o => {
+    const items = (typeof o.items === 'string' ? JSON.parse(o.items) : o.items) || [];
+    const itemsHtml = items.map(i => `<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--line)"><span>${i.name} x${i.qty}</span><span style="font-weight:600">Rp ${(i.price * i.qty).toLocaleString()}</span></div>`).join('');
+    return `<div style="background:var(--card);border:1.5px solid var(--line);border-radius:24px;padding:24px;margin-bottom:16px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <strong style="font-family:var(--display);font-size:1.05rem">${o.id}</strong>
+        <span style="background:var(--brand-l);color:var(--brand-d);padding:4px 14px;border-radius:999px;font-size:.78rem;font-weight:700">${o.status}</span>
+      </div>
+      <p style="color:var(--muted);font-size:.85rem;margin-bottom:10px">Bayar: ${o.payment_method || '-'} | ${o.created_at}</p>
+      ${itemsHtml}
+      <div style="display:flex;justify-content:space-between;margin-top:14px;font-weight:700;font-size:1.05rem"><span>Total</span><span style="color:var(--fg)">Rp ${o.total.toLocaleString()}</span></div>
+    </div>`;
+  }).join('');
+};
+
+// Override init
+app.init = function() {
+  this.loadOrders();
+  this.render();
+  this.checkLowStock();
+  loadProducts();
+  updateAuthUI();
+};
+
+// Override switchTab for auth
+const origSwitchTab = app.switchTab;
+app.switchTab = function(tab) {
+  origSwitchTab.call(this, tab);
+  if (tab === 'orders') this.renderOrders();
+};
+
+// ===== CART SYNC WITH BACKEND =====
+app.syncCart = async function() {
+  if (!authToken) return;
+  const r = await api('/api/cart/sync', { method: 'POST', body: JSON.stringify({ cart: this.cart }) });
+  return r;
+};
+
+// Override addToCart to sync
+const origAddToCart = app.addToCart;
+app.addToCart = function(id) {
+  origAddToCart.call(this, id);
+  this.syncCart();
+};
+
 </script>
 <button class="cbot" onclick="toggleChat()" id="chatToggle">&#x1F4AC;</button>
 <div class="cwin" id="chatWindow">
@@ -486,6 +724,32 @@ document.addEventListener("DOMContentLoaded",function(){setTimeout(function(){ad
     <button onclick="sendChat()"></button>
   </div>
 </div>
+
+<button class="login-btn" onclick="openLogin()" id="loginBtn" style="display:none">🔒 Login</button>
+<button class="login-btn" onclick="doLogout()" id="logoutBtn" style="display:none">Logout</button>
+<span class="user-info" id="userInfo" style="display:none"></span>
+<div id="loginModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeLogin()">×</span>
+    <h2>Login / Register</h2>
+    <div class="tabs">
+      <button class="tab active" onclick="showTab('login')">Login</button>
+      <button class="tab" onclick="showTab('register')">Register</button>
+    </div>
+    <div id="loginForm" class="form">
+      <input type="text" id="loginUsername" placeholder="Username">
+      <input type="password" id="loginPassword" placeholder="Password">
+      <button class="btn" onclick="doLogin()">Login</button>
+    </div>
+    <div id="regForm" class="form" style="display:none">
+      <input type="text" id="regUsername" placeholder="Username">
+      <input type="password" id="regPassword" placeholder="Password">
+      <input type="email" id="regEmail" placeholder="Email">
+      <button class="btn" onclick="doRegister()">Register</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
 // Force update BUG FIX v3
